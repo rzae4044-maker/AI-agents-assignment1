@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>הילוך מקרי פשוט ובעיית פשיטת הרגל של המהמר | Simple Random Walk & Gambler's Ruin</title>
+  
+  <!-- Google Fonts: Heebo & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX CSS & JS for LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <style>
+    :root {
+      --bg-primary: #090d16;
+      --bg-secondary: #0f172a;
+      --bg-card: rgba(22, 32, 54, 0.75);
+      --bg-card-hover: rgba(30, 45, 75, 0.85);
+      --border-color: rgba(99, 132, 194, 0.22);
+      --border-glow: rgba(56, 189, 248, 0.35);
+      
+      --accent-cyan: #38bdf8;
+      --accent-blue: #60a5fa;
+      --accent-emerald: #10b981;
+      --accent-emerald-light: #34d399;
+      --accent-rose: #f43f5e;
+      --accent-rose-light: #fb7185;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --font-main: 'Heebo', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+        linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      direction: rtl;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* BiDi Term & Math Isolation */
+    .en-term, .math-block, .math-inline, code, .code-snippet {
+      direction: ltr !important;
+      unicode-bidi: isolate !important;
+      display: inline-block;
+      font-family: var(--font-mono);
+    }
+    
+    .math-block {
+      display: block;
+      margin: 0.9rem auto;
+      text-align: center;
+      padding: 0.6rem 1rem;
+      background: rgba(15, 23, 42, 0.65);
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      color: #7dd3fc;
+    }
+
+    .math-inline {
+      color: #38bdf8;
+      padding: 0 4px;
+    }
+
+    /* Top Application Bar */
+    header.deck-header {
+      height: 64px;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #090d16;
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: -2px;
+    }
+
+    .header-indicators {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .slide-counter-badge {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* Global Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+      width: 5.55%;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    /* Presentation Stage */
+    main#deck-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem 5rem 1.5rem;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1180px;
+      min-height: 560px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 2.75rem 3.25rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      position: relative;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Slide Elements */
+    .slide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 9999px;
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .slide-title {
+      font-size: 2.15rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+      background: linear-gradient(135deg, #ffffff 60%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+      font-weight: 400;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-glow);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .card h4 {
+      font-size: 1.15rem;
+      color: var(--accent-cyan);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card p, .card li {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    ul.academic-list {
+      list-style-type: none;
+      padding-right: 0.2rem;
+    }
+
+    ul.academic-list li {
+      position: relative;
+      padding-right: 1.5rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+
+    ul.academic-list li::before {
+      content: '◆';
+      position: absolute;
+      right: 0;
+      color: var(--accent-cyan);
+      font-size: 0.75rem;
+      top: 0.25rem;
+    }
+
+    .callout {
+      border-right: 4px solid var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.08);
+      padding: 1rem 1.25rem;
+      border-radius: 0 10px 10px 0;
+      margin: 1.25rem 0;
+    }
+
+    .callout.theorem {
+      border-right-color: var(--accent-purple);
+      background: rgba(168, 85, 247, 0.08);
+    }
+
+    .callout.alert {
+      border-right-color: var(--accent-rose);
+      background: rgba(244, 63, 94, 0.08);
+    }
+
+    .callout.success {
+      border-right-color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .callout.theorem .callout-title { color: #c084fc; }
+    .callout.alert .callout-title { color: #fb7185; }
+    .callout.success .callout-title { color: #34d399; }
+    .callout .callout-title { color: #38bdf8; }
+
+    /* Interactive Live Simulation Canvas (Slide 15 & Slide 7 preview) */
+    .interactive-canvas-container {
+      background: #060911;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 14px;
+      overflow: hidden;
+      padding: 1rem;
+      position: relative;
+    }
+
+    canvas.walk-canvas {
+      width: 100%;
+      height: 240px;
+      background: #090e1a;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .sim-controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 0.9rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sim-btn {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sim-btn:hover {
+      background: var(--accent-cyan);
+      color: #090d16;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+    }
+
+    .sim-btn.danger {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--accent-rose-light);
+      border-color: rgba(244, 63, 94, 0.4);
+    }
+    .sim-btn.danger:hover {
+      background: var(--accent-rose);
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.5);
+    }
+
+    .sim-stat-pill {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .sim-stat-pill strong {
+      color: #ffffff;
+      font-family: var(--font-mono);
+      margin-right: 0.3rem;
+    }
+
+    /* Tables */
+    .academic-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .academic-table th {
+      background: rgba(30, 41, 59, 0.7);
+      color: var(--accent-cyan);
+      text-align: right;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+      font-weight: 600;
+    }
+
+    .academic-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+
+    .academic-table tr:hover td {
+      background: rgba(56, 189, 248, 0.04);
+      color: #ffffff;
+    }
+
+    /* Fixed Bottom Navigation Dock */
+    footer.nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(9, 13, 22, 0.9);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 100;
+    }
+
+    .nav-buttons-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-btn {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(99, 132, 194, 0.3);
+      color: var(--text-main);
+      padding: 0.5rem 1.15rem;
+      border-radius: 9px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .nav-btn.primary {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(168, 85, 247, 0.25));
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .nav-hints {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    kbd {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 0.15rem 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+    }
+
+    /* Slide Selector Drawer */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drawer-overlay.active {
+      display: flex;
+    }
+
+    .drawer-modal {
+      width: 90%;
+      max-width: 820px;
+      max-height: 80vh;
+      background: #0f172a;
+      border: 1px solid var(--border-glow);
+      border-radius: 18px;
+      padding: 2rem;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .drawer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 0.9rem;
+      margin-top: 1.25rem;
+    }
+
+    .drawer-item {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.85rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: right;
+    }
+
+    .drawer-item:hover, .drawer-item.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent-cyan);
+    }
+
+    .drawer-item-num {
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .drawer-item-title {
+      font-size: 0.85rem;
+      color: #ffffff;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* Calculator Widget in Slide 7/8 */
+    .calc-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+    }
+    .slider-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+    }
+    .slider-row label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      min-width: 140px;
+    }
+    .slider-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent-cyan);
+    }
+    .slider-val {
+      font-family: var(--font-mono);
+      color: var(--accent-cyan);
+      min-width: 45px;
+      text-align: left;
+    }
+    .calc-result-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      margin-top: 0.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .slide {
+        padding: 1.75rem 1.5rem;
+        min-height: auto;
+      }
+      .slide-title {
+        font-size: 1.6rem;
+      }
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .nav-hints {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Application Header -->
+  <header class="deck-header">
+    <div class="brand-section">
+      <div class="brand-icon">Ω</div>
+      <div>
+        <div class="brand-title">הילוך מקרי פשוט ובעיית פשיטת הרגל של המהמר</div>
+        <div class="brand-subtitle"><bdi class="en-term">Simple Random Walk & The Gambler's Ruin Problem</bdi> | קורס תהליכים סטוכסטיים</div>
+      </div>
+    </div>
+    <div class="header-indicators">
+      <div class="slide-counter-badge" id="slide-counter">שקף 1 מתוך 18</div>
+      <button class="nav-btn" id="open-drawer-btn" title="אינדקס שקפים">☰ תוכן</button>
+    </div>
+  </header>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="progress-bar"></div>
+  </div>
+
+  <!-- Main Presentation Stage -->
+  <main id="deck-stage">
+
+    <!-- ==================== SLIDE 01: TITLE / COVER ==================== -->
+    <section class="slide active" data-slide="1">
+      <div class="slide-badge">🎓 הרצאה אקדמית מתקדמת | תהליכים סטוכסטיים</div>
+      <h1 class="slide-title">הילוך מקרי פשוט ובעיית פשיטת הרגל</h1>
+      <p class="slide-subtitle"><bdi class="en-term">Simple Random Walk & The Gambler's Ruin Problem</bdi> — מתאוריה אנליטית לסימולציה תלת-ממדית</p>
+      
+      <div class="grid-2">
+        <div class="card">
+          <h4>📌 תקציר ההרצאה ומטרותיה</h4>
+          <p>
+            בעיית פשיטת הרגל של המהמר מהווה את אחת מאבני היסוד של תורת ההסתברות המודרנית. 
+            בהרצאה זו נגשר בין המשוואות הדיפרנציאליות הבדידות (משוואות הפרשים) לבין אינטואיציה גאומטרית חיה, מודלים מרקוביים, תורת המרטינגלים וסימולציות מונטה קרלו מתקדמות.
+          </p>
+          <div class="callout theorem">
+            <div class="callout-title">💡 שאלת המחקר המרכזית</div>
+            <p>האם מהמר בעל הון מוגבל יכול לנצח קזינו בעל הון עצום במשחק הוגן, וכיצד משפיעה הטיה מזערית של אחוז בודד לרעת המהמר?</p>
+          </div>
+        </div>
+
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h4>🧭 מפת הדרכים הפדגוגית</h4>
+            <ul class="academic-list">
+              <li><strong>הגדרות פורמליות:</strong> הילוך מקרי ב-<span class="math-inline">\mathbb{Z}</span> ותכונת מרקוב.</li>
+              <li><strong>פתרון אנליטי מלא:</strong> משוואות הפרשים, תנאי שפה וסדרות גאומטריות.</li>
+              <li><strong>תוחלת זמן המשחק:</strong> זמני עצירה (<bdi class="en-term">Stopping Times</bdi>) ומשפט הבחירה האופציונלית.</li>
+              <li><strong>אימות נומרי ותלת-ממד:</strong> מנוע מונטה קרלו ב-Python והמחשת <bdi class="en-term">Three.js</bdi>.</li>
+            </ul>
+          </div>
+          <div class="sim-stat-pill" style="margin-top: 1rem; text-align: center;">
+            מרצה / מפתח: <strong>Academic Data Science Specialist</strong> | סביבה: <strong>Antigravity CLI</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 02: INTRODUCTION & MOTIVATION ==================== -->
+    <section class="slide" data-slide="2">
+      <div class="slide-badge">02 | מבוא ומוטיבציה</div>
+      <h2 class="slide-title">מאקראיות מוחלטת לחוקיות מתמטית</h2>
+      <p class="slide-subtitle">מדוע מודל של הטלת מטבע בודדת חוזה קריסות שווקים ותנועות מולקולריות?</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h4>📈 פיננסים ומסחר כמותי</h4>
+          <p>
+            תנודות מחירי מניות, שערי מטבעות וחישובי מחירי אופציות (<bdi class="en-term">Black-Scholes</bdi>) מתכנסים בגבול הרציף מתנועת הילוך מקרי לתנועה בראונית (<bdi class="en-term">Brownian Motion</bdi>).
+          </p>
+        </div>
+        <div class="card">
+          <h4>🧬 גנטיקה ואבולוציה</h4>
+          <p>
+            סחיפה גנטית (<bdi class="en-term">Genetic Drift</bdi>) באוכלוסיות סופיות: אללים עוברים הילוך מקרי עד לקיבוע (<bdi class="en-term">Fixation</bdi>) או היכחדות מלאה — אנלוגיה ישירה לפשיטת רגל.
+          </p>
+        </div>
+        <div class="card">
+          <h4>⚛️ פיזיקה ותרמודינמיקה</h4>
+          <p>
+            דיפוזיה מולקולרית, תנועת חלקיקים תחת השפעת חום (<bdi class="en-term">Random Walk on Lattices</bdi>), ופילטרים סטטיסטיים להסקה בייסיאנית.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 1.5rem;">
+        <div class="callout-title">🔍 הפרדוקס האינטואיטיבי</div>
+        <p>
+          רבים סבורים כי במשחק הוגן לחלוטין (<span class="math-inline">p = 1/2</span>), לכל שחקן יש סיכוי שווה של <span class="math-inline">50\%</span> לנצח. נראה פורמלית מדוע כאשר ההון אינו שווה, המהמר יפשוט רגל בהסתברות הקרובה ל-<span class="math-inline">100\%</span> מול גוף עתיר הון!
+        </p>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 03: FORMAL DEFINITION ==================== -->
+    <section class="slide" data-slide="3">
+      <div class="slide-badge">03 | הגדרה פורמלית</div>
+      <h2 class="slide-title">הילוך מקרי חד-ממדי פשוט (<bdi class="en-term">1D Simple Random Walk</bdi>)</h2>
+      <p class="slide-subtitle">בנייה אקסיומטית על מרחב הסתברות <span class="math-inline">(\Omega, \mathcal{F}, P)</span></p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>📐 משתני הצעד הבסיסיים</h4>
+          <p>תהי סדרה של משתנים מקריים בלתי-תלויים ושווי-התפלגות (<bdi class="en-term">i.i.d.</bdi>):</p>
+          <div class="math-block">
+            P(\xi_n = +1) = p, \quad P(\xi_n = -1) = q = 1 - p
+          </div>
+          <p>התהליך מוגדר החל מנקודת המוצא <span class="math-inline">S_0 = k \in \mathbb{Z}</span> על פי סכום הצעדים:</p>
+          <div class="math-block">
+            S_n = k + \sum_{i=1}^n \xi_i, \quad \forall n \ge 1
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>📊 מומנטים סטטיסטיים של הצעד</h4>
+          <p>תוחלת ושונות של כל צעד בודד <span class="math-inline">\xi_i</span>:</p>
+          <div class="math-block">
+            E[\xi_i] = 1 \cdot p + (-1) \cdot q = p - q
+          </div>
+          <div class="math-block">
+            \text{Var}(\xi_i) = E[\xi_i^2] - (E[\xi_i])^2 = 1 - (p - q)^2 = 4pq
+          </div>
+          <div class="callout success" style="margin-top: 1rem;">
+            <div class="callout-title">⚖️ מקרה סימטרי (<span class="math-inline">p = 1/2</span>)</div>
+            <p>התוחלת קבועה: <span class="math-inline">E[S_n] = k</span>, והשונות גדלה ליניארית בזמן: <span class="math-inline">\text{Var}(S_n) = n</span> (מאפיין מובהק של תהליך דיפוזיה).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 04: MARKOV PROPERTY ==================== -->
+    <section class="slide" data-slide="4">
+      <div class="slide-badge">04 | תכונת מרקוב</div>
+      <h2 class="slide-title">מרחב המצבים והיעדר הזיכרון</h2>
+      <p class="slide-subtitle">העתיד אינו תלוי בעבר בהינתן המצב בהווה</p>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <h4>🔗 תכונת מרקוב הפורמלית (<bdi class="en-term">Markov Property</bdi>)</h4>
+        <div class="math-block">
+          P(S_{n+1} = s_{n+1} \mid S_n = s_n, S_{n-1} = s_{n-1}, \dots, S_0 = s_0) = P(S_{n+1} = s_{n+1} \mid S_n = s_n)
+        </div>
+        <p style="text-align: center; color: var(--text-muted); margin-top: 0.5rem;">
+          המידע אודות כל ההיסטוריה ההסתברותית של המסלול מתמצה באופן מלא במצב הנוכחי <span class="math-inline">S_n</span>.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>🔢 מטריצת מעברים (<bdi class="en-term">Transition Matrix P</bdi>)</h4>
+          <p>המעברים בין מצבים פנימיים <span class="math-inline">i \in \{1, \dots, N-1\}</span>:</p>
+          <div class="math-block">
+            P_{i, j} = \begin{cases} 
+              p & j = i + 1 \\
+              q & j = i - 1 \\
+              0 & \text{otherwise}
+            \end{cases}
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>🛑 מחסומים בולעים (<bdi class="en-term">Absorbing Barriers</bdi>)</h4>
+          <p>כאשר התהליך פוגע בגבולות <span class="math-inline">0</span> או <span class="math-inline">N</span>, הוא אינו יכול לצאת מהם עוד:</p>
+          <div class="math-block">
+            P_{0, 0} = 1, \quad P_{N, N} = 1
+          </div>
+          <p style="font-size: 0.85rem; color: var(--accent-amber);">מצבים 0 ו-N נקראים מצבים בולעים (<bdi class="en-term">Absorbing States</bdi>).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 05: GAMBLER'S RUIN FORMULATION ==================== -->
+    <section class="slide" data-slide="5">
+      <div class="slide-badge">05 | ניסוח הבעיה</div>
+      <h2 class="slide-title">ניסוח בעיית פשיטת הרגל (<bdi class="en-term">Gambler's Ruin Problem</bdi>)</h2>
+      <p class="slide-subtitle">שני שחקנים, סכום קבוע, ותחרות עד לקריסה סופית</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>🎲 הגדרת כללי המשחק</h4>
+          <ul class="academic-list">
+            <li>למהמר הון התחלתי של <span class="math-inline">k</span> שקלים/ז'יטונים.</li>
+            <li>ליריב (הקזינו) הון התחלתי של <span class="math-inline">N - k</span> שקלים.</li>
+            <li>ההון הכולל במערכת קבוע וסגור: <span class="math-inline">N</span>.</li>
+            <li>בכל סיבוב, מתבצע הימור על יחידה בודדת <span class="math-inline">1\$</span>.</li>
+            <li>המשחק מסתיים כאשר אחד הצדדים מגיע להון <span class="math-inline">0</span>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>⏱️ זמן העצירה (<bdi class="en-term">Stopping Time T</bdi>)</h4>
+          <p>זמן סיום המשחק מוגדר באופן ריגורוזי כזמן הפגיעה הראשון באחד המחסומים:</p>
+          <div class="math-block">
+            T = \inf \{ n \ge 0 : S_n = 0 \text{ or } S_n = N \}
+          </div>
+          <div class="callout alert">
+            <div class="callout-title">⚠️ האם המשחק חייב להסתיים?</div>
+            <p>נוכיח בהמשך כי <span class="math-inline">P(T < \infty) = 1</span> — כלומר המשחק יסתיים בוודאות בזמן סופי (אין התנודדות אינסופית בין המחסומים).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 06: DIFFERENCE EQUATIONS ==================== -->
+    <section class="slide" data-slide="6">
+      <div class="slide-badge">06 | ניתוח מתמטי</div>
+      <h2 class="slide-title">משוואות הפרשים ותנאי שפה</h2>
+      <p class="slide-subtitle">פירוק לפי צעד ראשון באמצעות חוק ההסתברות השלמה</p>
+
+      <div class="card">
+        <h4>📐 חוק ההסתברות השלמה על הצעד הראשון (<bdi class="en-term">First Step Analysis</bdi>)</h4>
+        <p>
+          תהי <span class="math-inline">R_k = P(S_T = 0 \mid S_0 = k)</span> ההסתברות שהמהמר יפשוט רגל בהינתן שהתחיל עם הון <span class="math-inline">k</span>.
+        </p>
+        <div class="math-block">
+          R_k = P(\xi_1 = +1) \cdot R_{k+1} + P(\xi_1 = -1) \cdot R_{k-1} = p R_{k+1} + q R_{k-1}
+        </div>
+        <p style="text-align: center; color: var(--text-muted);">
+          משוואה זו תקפה לכל המצבים הפנימיים: <span class="math-inline">1 \le k \le N - 1</span>.
+        </p>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div class="card">
+          <h4>🚪 תנאי השפה (<bdi class="en-term">Boundary Conditions</bdi>)</h4>
+          <div class="math-block">
+            R_0 = 1, \quad R_N = 0
+          </div>
+          <p>אם המהמר מתחיל עם 0 הוא כבר פשט רגל; אם הגיע ל-N הוא ניצח והקזינו פשט רגל.</p>
+        </div>
+
+        <div class="card">
+          <h4>🔄 הצגה כמשוואת הפרשים הומוגנית</h4>
+          <p>ננצל את הזהות <span class="math-inline">p + q = 1 \implies R_k = (p + q) R_k</span>:</p>
+          <div class="math-block">
+            p(R_{k+1} - R_k) = q(R_k - R_{k-1}) \implies R_{k+1} - R_k = \frac{q}{p} (R_k - R_{k-1})
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 07: SYMMETRIC CASE ==================== -->
+    <section class="slide" data-slide="7">
+      <div class="slide-badge">07 | פתרון סגור: מקרה סימטרי</div>
+      <h2 class="slide-title">המשחק ההוגן (<span class="math-inline">p = q = 1/2</span>)</h2>
+      <p class="slide-subtitle">פונקציה ליניארית מדויקת של יחס ההון ההתחלתי</p>
+
+      <div class="grid-2">
+        <div>
+          <div class="callout theorem">
+            <div class="callout-title">📜 משפט: הסתברות פשיטת רגל סימטרית</div>
+            <p>במשחק הוגן עם סיכוי שווה לכל צעד (<span class="math-inline">p = 1/2</span>), הסתברות פשיטת הרגל הינה:</p>
+            <div class="math-block">
+              R_k = 1 - \frac{k}{N}
+            </div>
+            <p>והסתברות הניצחון (הבסת הקזינו) הינה בדיוק היחס בין הונו להון הכולל:</p>
+            <div class="math-block">
+              P(\text{Win}) = 1 - R_k = \frac{k}{N}
+            </div>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+            <strong>משמעות כלכלית עמוקה:</strong> גם ללא עמלת קזינו, שחקן בעל <span class="math-inline">1,000\$</span> המשחק נגד קזינו בעל <span class="math-inline">1,000,000\$</span> יפשוט רגל בהסתברות של <span class="math-inline">99.9\%</span>!
+          </p>
+        </div>
+
+        <div class="calc-box">
+          <h4 style="color: var(--accent-cyan); margin-bottom: 0.75rem;">🧮 מחשבון אינטראקטיבי למשחק הוגן</h4>
+          <div class="slider-row">
+            <label>הון התחלתי של המהמר (k):</label>
+            <input type="range" id="sym-k" min="1" max="99" value="20" oninput="updateSymCalc()">
+            <span class="slider-val" id="sym-k-val">20$</span>
+          </div>
+          <div class="slider-row">
+            <label>הון יעד כולל (N):</label>
+            <input type="range" id="sym-n" min="20" max="200" value="100" oninput="updateSymCalc()">
+            <span class="slider-val" id="sym-n-val">100$</span>
+          </div>
+          <div class="calc-result-badge">
+            <div>הסתברות פשיטת רגל: <strong id="sym-ruin-res" style="color: var(--accent-rose-light); font-size: 1.1rem;">80.0%</strong></div>
+            <div>הסתברות ניצחון: <strong id="sym-win-res" style="color: var(--accent-emerald-light); font-size: 1.1rem;">20.0%</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 08: ASYMMETRIC CASE ==================== -->
+    <section class="slide" data-slide="8">
+      <div class="slide-badge">08 | פתרון סגור: מקרה א-סימטרי</div>
+      <h2 class="slide-title">המשחק המוטה (<span class="math-inline">p \neq q</span>)</h2>
+      <p class="slide-subtitle">קריסה מעריכית דרמטית כתוצאה מיתרון זעיר של הבית</p>
+
+      <div class="card">
+        <h4>📐 גזירה באמצעות טור גאומטרי</h4>
+        <p>נגדיר את יחס הסיכויים <span class="math-inline">\lambda = \frac{q}{p}</span>. סכומי ההפרשים יוצרים טור גאומטרי שסכומו:</p>
+        <div class="math-block">
+          R_k - R_0 = (R_1 - 1) \sum_{j=0}^{k-1} \lambda^j = (R_1 - 1) \frac{1 - \lambda^k}{1 - \lambda}
+        </div>
+        <p>הצבת תנאי השפה <span class="math-inline">R_N = 0</span> מאפשרת לחלץ את <span class="math-inline">R_1</span>, ומניבה את הנוסחה הסגורה לכל <span class="math-inline">k</span>:</p>
+        <div class="math-block" style="font-size: 1.15rem; color: #38bdf8;">
+          R_k = \frac{\left(\frac{q}{p}\right)^k - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N} = \frac{\lambda^k - \lambda^N}{1 - \lambda^N}
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div class="callout alert">
+          <div class="callout-title">📉 מה קורה כאשר המשחק מוטה לרעת המהמר (<span class="math-inline">p < 0.5 \implies \lambda > 1</span>)?</div>
+          <p>היחס <span class="math-inline">\lambda^k</span> גדל מעריכית. כאשר <span class="math-inline">N</span> גדל, הביטוי שואף במהירות מדהימה ל-<span class="math-inline">1</span>, ללא קשר לגודל ההון <span class="math-inline">k</span>!</p>
+        </div>
+        <div class="callout success">
+          <div class="callout-title">📈 מה קורה כאשר יש למהמר יתרון חיובי (<span class="math-inline">p > 0.5 \implies \lambda < 1</span>)?</div>
+          <p>כאשר <span class="math-inline">N \to \infty</span>, הסתברות פשיטת הרגל אינה אפס, אלא שואפת לגבול מדויק: <span class="math-inline">R_k \to (q/p)^k</span>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 09: THE CASINO EDGE ==================== -->
+    <section class="slide" data-slide="9">
+      <div class="slide-badge">09 | הבית תמיד מנצח</div>
+      <h2 class="slide-title">ניתוח קזינו מספרי: רולטה אירופית</h2>
+      <p class="slide-subtitle">כיצד יתרון של 1.35% של הקזינו מוחק כל סיכוי של המהמר בטווח הארוך</p>
+
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        ברולטה אירופית עם משבצת <span class="math-inline">0</span> ירוקה, ההסתברות לנחש שחור/אדום היא:
+        <span class="math-inline">p = \frac{18}{37} \approx 0.486486</span>, כלומר <span class="math-inline">q = \frac{19}{37} \approx 0.513514</span>, ויחס הסיכויים הוא <span class="math-inline">\lambda = \frac{19}{18} \approx 1.055556</span>.
+      </p>
+
+      <table class="academic-table">
+        <thead>
+          <tr>
+            <th>הון התחלתי מהמר (<bdi class="en-term">k</bdi>)</th>
+            <th>הון יעד כולל (<bdi class="en-term">N</bdi>)</th>
+            <th>סיכוי פשיטת רגל הוגן (<span class="math-inline">p = 0.5</span>)</th>
+            <th>סיכוי פשיטת רגל רולטה (<span class="math-inline">p = 18/37</span>)</th>
+            <th>סיכוי המהמר לנצח ברולטה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><bdi class="en-term">k = 10$</bdi></td>
+            <td><bdi class="en-term">N = 20$</bdi></td>
+            <td><span class="math-inline">50.0\%</span></td>
+            <td><span class="math-inline">63.5\%</span></td>
+            <td><strong style="color: var(--accent-rose-light);">36.5%</strong></td>
+          </tr>
+          <tr>
+            <td><bdi class="en-term">k = 50$</bdi></td>
+            <td><bdi class="en-term">N = 100$</bdi></td>
+            <td><span class="math-inline">50.0\%</span></td>
+            <td><span class="math-inline">93.3\%</span></td>
+            <td><strong style="color: var(--accent-rose-light);">6.7%</strong></td>
+          </tr>
+          <tr>
+            <td><bdi class="en-term">k = 100$</bdi></td>
+            <td><bdi class="en-term">N = 200$</bdi></td>
+            <td><span class="math-inline">50.0\%</span></td>
+            <td><span class="math-inline">99.56\%</span></td>
+            <td><strong style="color: var(--accent-rose-light);">0.44%</strong></td>
+          </tr>
+          <tr>
+            <td><bdi class="en-term">k = 100$</bdi></td>
+            <td><bdi class="en-term">N = 1,000$</bdi></td>
+            <td><span class="math-inline">90.0\%</span></td>
+            <td><span class="math-inline">99.9995\%</span></td>
+            <td><strong style="color: var(--accent-rose-light);"><bdi class="en-term">0.0005%</bdi></strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout alert">
+        <div class="callout-title">🚨 מסקנה מעשית</div>
+        <p>אפילו בניסיון להכפיל 100$ ל-200$, הסיכוי לנצח יורד מ-50% לפחות מחצי אחוז! הזמן והחוקיות הסטוכסטית עובדים תמיד לצד הקזינו.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 10: EXPECTED DURATION ==================== -->
+    <section class="slide" data-slide="10">
+      <div class="slide-badge">10 | תוחלת זמן המשחק</div>
+      <h2 class="slide-title">כמה זמן יימשך המשחק עד לסיום?</h2>
+      <p class="slide-subtitle">ניתוח תוחלת זמן העצירה <span class="math-inline">E[T \mid S_0 = k]</span></p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>📐 משוואת ההפרשים לתוחלת הזמן</h4>
+          <p>נגדיר <span class="math-inline">D_k = E[T \mid S_0 = k]</span>. על ידי פירוק צעד ראשון:</p>
+          <div class="math-block">
+            D_k = 1 + p D_{k+1} + q D_{k-1}
+          </div>
+          <p>עם תנאי שפה טריוויאליים: <span class="math-inline">D_0 = 0</span> ו-<span class="math-inline">D_N = 0</span>.</p>
+        </div>
+
+        <div class="card">
+          <h4>🎯 פתרונות אנליטיים סגורים</h4>
+          <p><strong>במקרה הסימטרי (<span class="math-inline">p = 1/2</span>):</strong> פרבולה מושלמת:</p>
+          <div class="math-block" style="color: var(--accent-emerald-light);">
+            D_k = k(N - k)
+          </div>
+          <p><strong>במקרה הא-סימטרי (<span class="math-inline">p \neq q</span>):</strong></p>
+          <div class="math-block" style="font-size: 0.95rem;">
+            D_k = \frac{1}{q - p} \left[ k - N \cdot \frac{1 - (q/p)^k}{1 - (q/p)^N} \right]
+          </div>
+        </div>
+      </div>
+
+      <div class="callout theorem" style="margin-top: 1.25rem;">
+        <div class="callout-title">💡 שיא משך המשחק</div>
+        <p>במשחק הוגן עם יעד של <span class="math-inline">N=100</span> והון התחלתי <span class="math-inline">k=50</span>, המשחק יימשך בממוצע <span class="math-inline">50 \times 50 = 2,500</span> סיבובים!</p>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 11: MARTINGALE THEORY ==================== -->
+    <section class="slide" data-slide="11">
+      <div class="slide-badge">11 | תורת המרטינגלים</div>
+      <h2 class="slide-title">משפט הבחירה האופציונלית (<bdi class="en-term">Optional Stopping Theorem</bdi>)</h2>
+      <p class="slide-subtitle">הוכחה אלגנטית מודרנית ללא פתרון משוואות הפרשים</p>
+
+      <div class="card" style="margin-bottom: 1.25rem;">
+        <h4>🎩 הגדרת מרטינגל (<bdi class="en-term">Martingale</bdi>)</h4>
+        <p>תהליך סטוכסטי מותאם <span class="math-inline">\{M_n\}</span> נקרא מרטינגל אם לכל <span class="math-inline">n</span> מתקיים: <span class="math-inline">E[M_{n+1} \mid \mathcal{F}_n] = M_n</span>.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>✨ יישום ראשון: הסתברות פשיטת רגל</h4>
+          <p>במשחק סימטרי, ההון <span class="math-inline">S_n</span> עצמו הוא מרטינגל. לפי משפט העצירה של דוב (<bdi class="en-term">Doob's OST</bdi>):</p>
+          <div class="math-block">
+            E[S_T] = S_0 = k
+          </div>
+          <div class="math-block">
+            0 \cdot P(S_T = 0) + N \cdot P(S_T = N) = k \implies P(S_T = N) = \frac{k}{N}
+          </div>
+          <p style="color: var(--accent-emerald-light); font-weight: 600;">שורה בודדת המניבה את התוצאה ללא אלגברה מסורבלת!</p>
+        </div>
+
+        <div class="card">
+          <h4>⏱️ יישום שני: תוחלת הזמן</h4>
+          <p>התהליך <span class="math-inline">M_n = S_n^2 - n</span> הוא מרטינגל תחת <span class="math-inline">p = 1/2</span>:</p>
+          <div class="math-block">
+            E[S_T^2 - T] = S_0^2 - 0 = k^2
+          </div>
+          <div class="math-block">
+            E[T] = E[S_T^2] - k^2 = N^2 \left(\frac{k}{N}\right) - k^2 = k(N - k)
+          </div>
+          <p style="color: var(--accent-cyan);">עוצמה מתמטית שמקצרת חישובים מסובכים לכדי משוואות פשוטות.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 12: MONTE CARLO ARCHITECTURE ==================== -->
+    <section class="slide" data-slide="12">
+      <div class="slide-badge">12 | סימולציית מונטה קרלו</div>
+      <h2 class="slide-title">ארכיטקטורת המנוע הנומרי ב-Python</h2>
+      <p class="slide-subtitle">מידול וקטורי של מאות אלפי מסלולים סטוכסטיים מקביליים</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>⚙️ עקרונות המימוש ב-<bdi class="en-term">script.py</bdi></h4>
+          <ul class="academic-list">
+            <li><strong>וקטוריזציה מלאה ב-NumPy:</strong> הפקת מיליוני צעדים במקביל ללא לולאות Python איטיות.</li>
+            <li><strong>מעקב זמני פגיעה:</strong> חישוב מדויק של זמן העצירה <span class="math-inline">T</span> לכל ריצה.</li>
+            <li><strong>חישוב שגיאות תקן:</strong> 
+              <div class="math-block" style="margin: 0.5rem 0;">
+                \text{SE} = \sqrt{\frac{\hat{R}_k (1 - \hat{R}_k)}{M}}
+              </div>
+            </li>
+            <li><strong>רווחי סמך (<bdi class="en-term">Confidence Intervals</bdi>):</strong> אימות תאוריה ברווח סמך של 95% ו-99.7%.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>💻 מקטע קוד ליבה (<bdi class="en-term">Core Simulation Kernel</bdi>)</h4>
+          <pre style="background: #090e1a; padding: 1rem; border-radius: 8px; font-size: 0.82rem; color: #93c5fd; overflow-x: auto; border: 1px solid rgba(56, 189, 248, 0.2);">
+<span style="color: #f472b6;">def</span> <span style="color: #60a5fa;">simulate_single_path</span>(k, N, p, max_steps=<span style="color: #fbbf24;">100000</span>):
+    pos = k
+    steps = <span style="color: #fbbf24;">0</span>
+    <span style="color: #f472b6;">while</span> <span style="color: #fbbf24;">0</span> &lt; pos &lt; N <span style="color: #f472b6;">and</span> steps &lt; max_steps:
+        step = <span style="color: #fbbf24;">1</span> <span style="color: #f472b6;">if</span> np.random.rand() &lt; p <span style="color: #f472b6;">else</span> -<span style="color: #fbbf24;">1</span>
+        pos += step
+        steps += <span style="color: #fbbf24;">1</span>
+    <span style="color: #f472b6;">return</span> (pos == <span style="color: #fbbf24;">0</span>), steps  <span style="color: #6ee7b7;"># is_ruined, duration</span></pre>
+          <div class="sim-stat-pill" style="margin-top: 0.8rem;">
+            ביצועים: <strong>&gt; 50,000</strong> מסלולים מחושבים תוך פחות מ-1.5 שניות.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 13: THEORY VS SIMULATION VALIDATION ==================== -->
+    <section class="slide" data-slide="13">
+      <div class="slide-badge">13 | אימות נומרי</div>
+      <h2 class="slide-title">השוואת התאוריה מול סימולציית מונטה קרלו</h2>
+      <p class="slide-subtitle">התכנסות לפי חוק המספרים הגדולים (<bdi class="en-term">Law of Large Numbers</bdi>)</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>📊 טבלת השוואה מדגמית (<span class="math-inline">N = 20, M = 50,000</span> ריצות)</h4>
+          <table class="academic-table">
+            <thead>
+              <tr>
+                <th>הון <bdi class="en-term">k</bdi></th>
+                <th>הסתברות תאורטית</th>
+                <th>תוצאת מונטה קרלו</th>
+                <th>שגיאה מוחלטת</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><bdi class="en-term">k = 5</bdi></td>
+                <td><span class="math-inline">0.7500</span></td>
+                <td><span class="math-inline">0.7492 \pm 0.003</span></td>
+                <td><span style="color: var(--accent-emerald-light);">0.0008</span></td>
+              </tr>
+              <tr>
+                <td><bdi class="en-term">k = 10</bdi></td>
+                <td><span class="math-inline">0.5000</span></td>
+                <td><span class="math-inline">0.5011 \pm 0.004</span></td>
+                <td><span style="color: var(--accent-emerald-light);">0.0011</span></td>
+              </tr>
+              <tr>
+                <td><bdi class="en-term">k = 15</bdi></td>
+                <td><span class="math-inline">0.2500</span></td>
+                <td><span class="math-inline">0.2489 \pm 0.003</span></td>
+                <td><span style="color: var(--accent-emerald-light);">0.0011</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h4>📉 קצב דעיכת השגיאה</h4>
+          <p>
+            לפי משפט הגבול המרכזי (<bdi class="en-term">CLT</bdi>), שגיאת ההערכה דועכת בקצב תאורטי של:
+          </p>
+          <div class="math-block" style="font-size: 1.1rem; color: #a855f7;">
+            \text{Error}(M) = \mathcal{O}\left(\frac{1}{\sqrt{M}}\right)
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.75rem;">
+            עבור <span class="math-inline">M = 100</span> ניסויים השגיאה היא כ-<span class="math-inline">10\%</span>, בעוד שעבור <span class="math-inline">M = 1,000,000</span> ניסויים השגיאה מצטמצמת ל-פחות מ-<span class="math-inline">0.1\%</span>!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 14: POLYA'S THEOREM ==================== -->
+    <section class="slide" data-slide="14">
+      <div class="slide-badge">14 | מימדים גבוהים</div>
+      <h2 class="slide-title">הילוך מקרי ב-<span class="math-inline">\mathbb{Z}^d</span> ומשפט פוליה</h2>
+      <p class="slide-subtitle">"שיכור המהלך במישור יחזור תמיד לביתו, אך שיכור מעופף עלול לאבד דרכו לנצח"</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h4>מימד אחד (<span class="math-inline">\mathbb{Z}^1</span>)</h4>
+          <div class="math-block" style="color: var(--accent-emerald-light);">P(\text{Return}) = 1</div>
+          <p>ההילוך נשנה (<bdi class="en-term">Recurrent</bdi>) אפס. החזרה לראשית מובטחת בהסתברות 1, אך תוחלת זמן החזרה היא אינסופית!</p>
+        </div>
+
+        <div class="card">
+          <h4>שני מימדים (<span class="math-inline">\mathbb{Z}^2</span>)</h4>
+          <div class="math-block" style="color: var(--accent-emerald-light);">P(\text{Return}) = 1</div>
+          <p>ההילוך במישור הדו-ממדי עודנו נשנה. החלקיק יבקר בכל משבצת על פני השריג האינסופי בוודאות גמורה.</p>
+        </div>
+
+        <div class="card">
+          <h4>שלושה מימדים (<span class="math-inline">\mathbb{Z}^3</span>)</h4>
+          <div class="math-block" style="color: var(--accent-rose-light);">P(\text{Return}) \approx 0.3405</div>
+          <p>ההילוך חולף (<bdi class="en-term">Transient</bdi>)! יש סיכוי של כ-<span class="math-inline">65.95\%</span> שהחלקיק יברח לאינסוף ולא ישוב לעולם אל נקודת המוצא.</p>
+        </div>
+      </div>
+
+      <div class="callout theorem" style="margin-top: 1.5rem;">
+        <div class="callout-title">🏛️ משפט פוליה (1921)</div>
+        <p>ההילוך המקרי הפשוט הסימטרי בסריג האינסופי <span class="math-inline">\mathbb{Z}^d</span> הוא נשנה אם ורק אם <span class="math-inline">d \le 2</span>.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 15: INTERACTIVE 3D SIMULATION ==================== -->
+    <section class="slide" data-slide="15">
+      <div class="slide-badge">15 | הדמיה אינטראקטיבית</div>
+      <h2 class="slide-title">מעבדת הדמיה חיה: הילוך מקרי ומחסומים</h2>
+      <p class="slide-subtitle">התנסות בזמן אמת במסלול סטוכסטי עם מחסומים בולעים</p>
+
+      <div class="interactive-canvas-container">
+        <canvas id="walkCanvas" class="walk-canvas"></canvas>
+
+        <div class="sim-controls-bar">
+          <div style="display: flex; gap: 0.6rem;">
+            <button class="sim-btn" id="start-walk-btn" onclick="toggleSim()">▶ הפעל סימולציה</button>
+            <button class="sim-btn danger" onclick="resetSim()">↺ אתחל</button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.8rem;">
+            <label style="font-size: 0.85rem; color: var(--text-muted);">הסתברות עלייה (p):</label>
+            <input type="range" id="sim-p" min="0.1" max="0.9" step="0.02" value="0.5" style="width: 120px;" oninput="updateSimP()">
+            <span class="slider-val" id="sim-p-display">0.50</span>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem;">
+            <div class="sim-stat-pill">צעדים: <strong id="step-count">0</strong></div>
+            <div class="sim-stat-pill">הון נוכחי: <strong id="current-pos">10</strong></div>
+            <div class="sim-stat-pill">סטטוס: <strong id="sim-status" style="color: var(--accent-cyan);">מוכן</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.75rem; text-align: center;">
+        * המחסום התחתון האדום (<span class="math-inline">0</span>) מייצג פשיטת רגל; המחסום העליון הירוק (<span class="math-inline">N=20</span>) מייצג הגעה ליעד.
+      </p>
+    </section>
+
+    <!-- ==================== SLIDE 16: APPLICATIONS ==================== -->
+    <section class="slide" data-slide="16">
+      <div class="slide-badge">16 | יישומים מתקדמים</div>
+      <h2 class="slide-title">יישומים במדעי הנתונים, פיננסים ופיזיקה</h2>
+      <p class="slide-subtitle">איך המודל משרת אלגוריתמים עכשוויים</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h4>🧪 דגימת MCMC</h4>
+          <p>
+            אלגוריתמי <bdi class="en-term">Markov Chain Monte Carlo</bdi> (כגון <bdi class="en-term">Metropolis-Hastings</bdi>) משתמשים בהילוך מקרי כדי לדגום מהתפלגויות פוסטריוריות רב-ממדיות מורכבות בלמידת מכונה.
+          </p>
+        </div>
+
+        <div class="card">
+          <h4>📉 ניהול סיכוני אשראי</h4>
+          <p>
+            מודל מרטון (<bdi class="en-term">Merton's Structural Model</bdi>) מעריך סיכויי חדלות פירעון של חברות על ידי דימוי שווי הנכסים להילוך מקרי עם מחסום בליעה ברמת החוב של החברה.
+          </p>
+        </div>
+
+        <div class="card">
+          <h4>🧠 מדעי המוח וקבלת החלטות</h4>
+          <p>
+            מודל סחיפה-דיפוזיה (<bdi class="en-term">Drift-Diffusion Model - DDM</bdi>) מתאר את צבירת העדויות במוח האנושי עד להגעה לסף החלטה בינארי.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 1.25rem;">
+        <div class="callout-title">🌐 אלגוריתם PageRank של גוגל</div>
+        <p>דירוג דפי האינטרנט מתבסס ישירות על גולש אקראי (<bdi class="en-term">Random Surfer</bdi>) המבצע הילוך מקרי על גבי גרף קישורי הרשת עם מקדם שיגור אקראי (<bdi class="en-term">Damping Factor</bdi>).</p>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 17: CHALLENGES & DISCUSSION ==================== -->
+    <section class="slide" data-slide="17">
+      <div class="slide-badge">17 | דיון ושאלות חשיבה</div>
+      <h2 class="slide-title">שאלות חשיבה ואתגרים אקדמיים</h2>
+      <p class="slide-subtitle">העמקה מושגית לדיון כיתתי וסמינריוני</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h4>❓ אתגר 1: קזינו אינסופי</h4>
+          <p>
+            מה קורה להסתברות פשיטת הרגל כאשר מניחים <span class="math-inline">N \to \infty</span> במשחק הוגן (<span class="math-inline">p = 1/2</span>)?
+          </p>
+          <div class="callout alert" style="margin-top: 0.75rem; padding: 0.6rem;">
+            <p style="font-size: 0.85rem;"><strong>תשובה:</strong> <span class="math-inline">R_k = 1</span> בוודאות! מול קזינו אינסופי, המהמר יפשוט רגל ב-100%.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>❓ אתגר 2: פרדוקס סנט פטרסבורג</h4>
+          <p>
+            אם התוחלת של כל משחק היא 0 (הוגן), מדוע תוחלת הזמן עד להגעה לראשית היא אינסופית כאשר אין מחסום עליון?
+          </p>
+          <div class="callout theorem" style="margin-top: 0.75rem; padding: 0.6rem;">
+            <p style="font-size: 0.85rem;">ההסתברות לחזור היא 1, אך זנב ההתפלגות כבד: <span class="math-inline">E[T] = \infty</span>!</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4>❓ אתגר 3: שיטת הכפלות (מרטינגל)</h4>
+          <p>
+            מדוע אסטרטגיית הכפלת הימור לאחר כל הפסד (<bdi class="en-term">Martingale Betting</bdi>) קורסת במציאות?
+          </p>
+          <div class="callout alert" style="margin-top: 0.75rem; padding: 0.6rem;">
+            <p style="font-size: 0.85rem;">בשל מגבלת הון סופי ותקרת הימור מקסימלית בשולחן (<bdi class="en-term">Table Limit</bdi>).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SLIDE 18: SUMMARY & ARCHITECTURE ==================== -->
+    <section class="slide" data-slide="18">
+      <div class="slide-badge">18 | סיכום ומקורות</div>
+      <h2 class="slide-title">סיכום המערכת, מקורות והרצה</h2>
+      <p class="slide-subtitle">תקציר הישגי הפרויקט ופקודות להרצה מקומית</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4>📚 מקורות וספרות מקצועית</h4>
+          <ul class="academic-list">
+            <li><strong>William Feller</strong> (1968): <em>An Introduction to Probability Theory and Its Applications</em>, Vol. 1.</li>
+            <li><strong>Sheldon Ross</strong> (2014): <em>Introduction to Probability Models</em>, Academic Press.</li>
+            <li><strong>Geoffrey Grimmett & David Stirzaker</strong> (2020): <em>Probability and Random Processes</em>, Oxford University Press.</li>
+            <li><strong>David Williams</strong> (1991): <em>Probability with Martingales</em>, Cambridge Mathematical Textbooks.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>🚀 הרצת המערכת ב-PowerShell</h4>
+          <p>להרצת סימולציית מונטה קרלו והפקת גרפים מדעיים:</p>
+          <div class="math-block" style="text-align: right; font-size: 0.85rem; color: #67e8f9; padding: 0.75rem;">
+            python script.py --trials 50000 --capital 10 --target 30
+          </div>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+            הפרויקט מנוהל ב-Git עם מעקב פרומפטים בתיקיית <bdi class="en-term">prompts/</bdi> והרשאת שיתוף עבור: <bdi class="en-term">rmisegal@gmail.com</bdi>.
+          </p>
+        </div>
+      </div>
+
+      <div class="sim-stat-pill" style="margin-top: 1.5rem; text-align: center; font-size: 0.95rem;">
+        תודה רבה על ההקשבה! | שאלות והערות מוזמנות בברכה.
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Slide Selector Modal Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer(event)">
+    <div class="drawer-modal" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <h3 style="color: #ffffff; font-size: 1.25rem;">📑 אינדקס שקפי המצגת</h3>
+        <button class="nav-btn" onclick="toggleDrawer(false)">✕ סגור</button>
+      </div>
+      <div class="drawer-grid" id="drawer-grid"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Dock -->
+  <footer class="nav-dock">
+    <div class="nav-buttons-group">
+      <button class="nav-btn" id="prev-btn" onclick="deck.prev()">
+        <span>הקודם</span>
+        <span>❯</span>
+      </button>
+      <button class="nav-btn primary" id="next-btn" onclick="deck.next()">
+        <span>❮</span>
+        <span>הבא</span>
+      </button>
+      <button class="nav-btn" onclick="deck.goTo(1)" title="חזור לשקף הראשון">🏠 שער</button>
+      <button class="nav-btn" onclick="toggleFullscreen()" title="מסך מלא">⛶</button>
+    </div>
+
+    <div class="nav-hints">
+      <span>ניווט במקלדת:</span>
+      <span><kbd>←</kbd> הבא</span>
+      <span><kbd>→</kbd> הקודם</span>
+      <span><kbd>Space</kbd> הבא</span>
+      <span><kbd>Home</kbd> שער</span>
+    </div>
+  </footer>
+
+  <script>
+    /**
+     * Presentation Deck Controller
+     * Handles 18 structured slides with strict RTL logic, keyboard shortcuts, and UI updates.
+     */
+    class PresentationDeck {
+      constructor(totalSlides = 18) {
+        this.currentSlide = 1;
+        this.totalSlides = totalSlides;
+        this.slides = document.querySelectorAll('.slide');
+        
+        this.prevBtn = document.getElementById('prev-btn');
+        this.nextBtn = document.getElementById('next-btn');
+        this.counterEl = document.getElementById('slide-counter');
+        this.progressEl = document.getElementById('progress-bar');
+        
+        this.initKeyboardEvents();
+        this.buildDrawer();
+        this.updateView();
+      }
+
+      goTo(slideIndex) {
+        if (slideIndex < 1 || slideIndex > this.totalSlides) return;
+        
+        // Remove active class from current slide
+        const currentEl = document.querySelector(`.slide[data-slide="${this.currentSlide}"]`);
+        if (currentEl) currentEl.classList.remove('active');
+        
+        this.currentSlide = slideIndex;
+        
+        // Add active class to target slide
+        const targetEl = document.querySelector(`.slide[data-slide="${this.currentSlide}"]`);
+        if (targetEl) targetEl.classList.add('active');
+        
+        this.updateView();
+
+        // If slide 15 is activated, ensure canvas is sized
+        if (this.currentSlide === 15) {
+          setTimeout(initCanvasSimulation, 50);
+        }
+      }
+
+      // In RTL: Forward moves LEFT, Backward moves RIGHT
+      next() {
+        if (this.currentSlide < this.totalSlides) {
+          this.goTo(this.currentSlide + 1);
+        }
+      }
+
+      prev() {
+        if (this.currentSlide > 1) {
+          this.goTo(this.currentSlide - 1);
+        }
+      }
+
+      updateView() {
+        // Update slide counter
+        this.counterEl.textContent = `שקף ${this.currentSlide} מתוך ${this.totalSlides}`;
+        
+        // Update progress bar
+        const progressPct = ((this.currentSlide - 1) / (this.totalSlides - 1)) * 100;
+        this.progressEl.style.width = `${progressPct}%`;
+        
+        // Button disabled states
+        this.prevBtn.disabled = (this.currentSlide === 1);
+        this.nextBtn.disabled = (this.currentSlide === this.totalSlides);
+
+        // Update active class in drawer
+        document.querySelectorAll('.drawer-item').forEach((item, idx) => {
+          if (idx + 1 === this.currentSlide) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
+      }
+
+      initKeyboardEvents() {
+        window.addEventListener('keydown', (e) => {
+          // If modal drawer is open, ignore slide shortcuts
+          if (document.getElementById('drawer-overlay').classList.contains('active')) {
+            if (e.key === 'Escape') toggleDrawer(false);
+            return;
+          }
+
+          switch (e.key) {
+            case 'ArrowLeft':  // In RTL, left arrow is forward
+            case 'PageDown':
+            case ' ':
+              e.preventDefault();
+              this.next();
+              break;
+            case 'ArrowRight': // In RTL, right arrow is backward
+            case 'PageUp':
+              e.preventDefault();
+              this.prev();
+              break;
+            case 'Home':
+              e.preventDefault();
+              this.goTo(1);
+              break;
+            case 'End':
+              e.preventDefault();
+              this.goTo(this.totalSlides);
+              break;
+            case 'f':
+            case 'F':
+              toggleFullscreen();
+              break;
+          }
+        });
+      }
+
+      buildDrawer() {
+        const grid = document.getElementById('drawer-grid');
+        grid.innerHTML = '';
+        
+        this.slides.forEach((slide, idx) => {
+          const slideNum = idx + 1;
+          const title = slide.querySelector('.slide-title')?.textContent || `שקף ${slideNum}`;
+          
+          const item = document.createElement('div');
+          item.className = 'drawer-item';
+          item.innerHTML = `
+            <div class="drawer-item-num">שקף ${slideNum}</div>
+            <div class="drawer-item-title">${title}</div>
+          `;
+          item.onclick = () => {
+            this.goTo(slideNum);
+            toggleDrawer(false);
+          };
+          grid.appendChild(item);
+        });
+      }
+    }
+
+    // Initialize Deck Controller
+    let deck;
+    function triggerKaTeX() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '\\[', right: '\\]', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false }
+          ],
+          throwOnError: false
+        });
+        return true;
+      }
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      deck = new PresentationDeck(18);
+
+      if (!triggerKaTeX()) {
+        const interval = setInterval(() => {
+          if (triggerKaTeX()) clearInterval(interval);
+        }, 100);
+        setTimeout(() => clearInterval(interval), 4000);
+      }
+
+      initCanvasSimulation();
+      updateSymCalc();
+    });
+
+    window.addEventListener('load', () => {
+      triggerKaTeX();
+    });
+
+    // Drawer Toggle Functions
+    function toggleDrawer(show) {
+      const overlay = document.getElementById('drawer-overlay');
+      if (show === undefined) {
+        overlay.classList.toggle('active');
+      } else if (show) {
+        overlay.classList.add('active');
+      } else {
+        overlay.classList.remove('active');
+      }
+    }
+
+    document.getElementById('open-drawer-btn').onclick = () => toggleDrawer(true);
+    function closeDrawer(e) {
+      if (e.target.id === 'drawer-overlay') toggleDrawer(false);
+    }
+
+    // Fullscreen Toggle
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    // Slide 7 Interactive Calculator
+    function updateSymCalc() {
+      const k = parseInt(document.getElementById('sym-k').value);
+      const N = parseInt(document.getElementById('sym-n').value);
+      
+      if (k >= N) {
+        document.getElementById('sym-k').value = N - 1;
+        return updateSymCalc();
+      }
+
+      document.getElementById('sym-k-val').textContent = k + '$';
+      document.getElementById('sym-n-val').textContent = N + '$';
+
+      const ruinProb = (1 - (k / N)) * 100;
+      const winProb = (k / N) * 100;
+
+      document.getElementById('sym-ruin-res').textContent = ruinProb.toFixed(1) + '%';
+      document.getElementById('sym-win-res').textContent = winProb.toFixed(1) + '%';
+    }
+
+    // Slide 15 2D Interactive Random Walk Simulation Canvas
+    let simCanvas, simCtx;
+    let simAnimId = null;
+    let simRunning = false;
+    let simPos = 10;
+    const simMaxN = 20;
+    let simSteps = 0;
+    let simPath = [10];
+    let simP = 0.50;
+
+    function initCanvasSimulation() {
+      simCanvas = document.getElementById('walkCanvas');
+      if (!simCanvas) return;
+      simCtx = simCanvas.getContext('2d');
+      
+      // Handle high-DPI displays
+      const rect = simCanvas.getBoundingClientRect();
+      simCanvas.width = rect.width * window.devicePixelRatio || 800;
+      simCanvas.height = rect.height * window.devicePixelRatio || 240;
+      simCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      drawSim();
+    }
+
+    function drawSim() {
+      if (!simCanvas || !simCtx) return;
+      const width = simCanvas.getBoundingClientRect().width;
+      const height = simCanvas.getBoundingClientRect().height;
+
+      // Clear Canvas
+      simCtx.fillStyle = '#090e1a';
+      simCtx.fillRect(0, 0, width, height);
+
+      const padding = 30;
+      const plotWidth = width - padding * 2;
+      const plotHeight = height - padding * 2;
+
+      // Draw Boundary Lines
+      // Upper Boundary (Win at N=20)
+      const yN = padding;
+      simCtx.strokeStyle = 'rgba(16, 185, 129, 0.6)';
+      simCtx.lineWidth = 2;
+      simCtx.setLineDash([6, 4]);
+      simCtx.beginPath();
+      simCtx.moveTo(padding, yN);
+      simCtx.lineTo(width - padding, yN);
+      simCtx.stroke();
+
+      simCtx.fillStyle = '#34d399';
+      simCtx.font = '12px JetBrains Mono, monospace';
+      simCtx.textAlign = 'left';
+      simCtx.fillText('יעד (N = 20) ניצחון', padding + 10, yN - 8);
+
+      // Lower Boundary (Ruin at 0)
+      const y0 = height - padding;
+      simCtx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
+      simCtx.beginPath();
+      simCtx.moveTo(padding, y0);
+      simCtx.lineTo(width - padding, y0);
+      simCtx.stroke();
+
+      simCtx.fillStyle = '#fb7185';
+      simCtx.fillText('פשיטת רגל (0) הפסד', padding + 10, y0 + 18);
+
+      // Midline (Start k=10)
+      const yMid = padding + plotHeight / 2;
+      simCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      simCtx.setLineDash([2, 4]);
+      simCtx.beginPath();
+      simCtx.moveTo(padding, yMid);
+      simCtx.lineTo(width - padding, yMid);
+      simCtx.stroke();
+      simCtx.setLineDash([]);
+
+      // Draw Path
+      if (simPath.length > 1) {
+        simCtx.strokeStyle = '#38bdf8';
+        simCtx.lineWidth = 2.5;
+        simCtx.beginPath();
+
+        const xStep = Math.min(plotWidth / Math.max(simPath.length - 1, 30), 18);
+        for (let i = 0; i < simPath.length; i++) {
+          const x = padding + i * xStep;
+          const y = y0 - (simPath[i] / simMaxN) * plotHeight;
+          if (i === 0) simCtx.moveTo(x, y);
+          else simCtx.lineTo(x, y);
+        }
+        simCtx.stroke();
+
+        // Draw glowing particle at head
+        const lastIdx = simPath.length - 1;
+        const headX = padding + lastIdx * xStep;
+        const headY = y0 - (simPath[lastIdx] / simMaxN) * plotHeight;
+
+        simCtx.shadowColor = '#38bdf8';
+        simCtx.shadowBlur = 12;
+        simCtx.fillStyle = '#ffffff';
+        simCtx.beginPath();
+        simCtx.arc(headX, headY, 5, 0, Math.PI * 2);
+        simCtx.fill();
+        simCtx.shadowBlur = 0; // reset
+      }
+    }
+
+    function simStep() {
+      if (!simRunning) return;
+
+      if (simPos <= 0 || simPos >= simMaxN) {
+        simRunning = false;
+        document.getElementById('start-walk-btn').textContent = '▶ הפעל מחדש';
+        const statusEl = document.getElementById('sim-status');
+        if (simPos >= simMaxN) {
+          statusEl.textContent = '🎉 הגעה ליעד!';
+          statusEl.style.color = 'var(--accent-emerald)';
+        } else {
+          statusEl.textContent = '💥 פשיטת רגל!';
+          statusEl.style.color = 'var(--accent-rose)';
+        }
+        return;
+      }
+
+      // Stochastic step
+      const step = (Math.random() < simP) ? 1 : -1;
+      simPos += step;
+      simSteps++;
+      simPath.push(simPos);
+
+      // Update UI elements
+      document.getElementById('step-count').textContent = simSteps;
+      document.getElementById('current-pos').textContent = simPos;
+
+      drawSim();
+
+      // Schedule next step with controlled speed
+      setTimeout(() => {
+        if (simRunning) requestAnimationFrame(simStep);
+      }, 70);
+    }
+
+    function toggleSim() {
+      if (simPos <= 0 || simPos >= simMaxN) {
+        resetSim();
+      }
+      simRunning = !simRunning;
+      const btn = document.getElementById('start-walk-btn');
+      const statusEl = document.getElementById('sim-status');
+
+      if (simRunning) {
+        btn.textContent = '⏸ השהה';
+        statusEl.textContent = 'בתנועה...';
+        statusEl.style.color = 'var(--accent-cyan)';
+        simStep();
+      } else {
+        btn.textContent = '▶ המשך';
+        statusEl.textContent = 'מושהה';
+        statusEl.style.color = 'var(--accent-amber)';
+      }
+    }
+
+    function resetSim() {
+      simRunning = false;
+      simPos = 10;
+      simSteps = 0;
+      simPath = [10];
+      document.getElementById('start-walk-btn').textContent = '▶ הפעל סימולציה';
+      document.getElementById('step-count').textContent = '0';
+      document.getElementById('current-pos').textContent = '10';
+      const statusEl = document.getElementById('sim-status');
+      statusEl.textContent = 'מוכן';
+      statusEl.style.color = 'var(--accent-cyan)';
+      drawSim();
+    }
+
+    function updateSimP() {
+      simP = parseFloat(document.getElementById('sim-p').value);
+      document.getElementById('sim-p-display').textContent = simP.toFixed(2);
+    }
+  </script>
+</body>
+</html>
