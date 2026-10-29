@@ -17,24 +17,39 @@
 
   <style>
     :root {
-      --bg-primary: #070b14;
-      --bg-secondary: #0d1527;
-      --bg-card: rgba(18, 28, 51, 0.75);
-      --bg-card-hover: rgba(26, 40, 72, 0.88);
-      --border-color: rgba(99, 132, 194, 0.22);
-      --border-glow: rgba(56, 189, 248, 0.4);
+      /* Soft Calming Pastel Backgrounds */
+      --bg-primary: #f8fafc;
+      --bg-secondary: #f1f5f9;
+      --bg-surface: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --bg-card-hover: #ffffff;
+      --border-color: rgba(203, 213, 225, 0.8);
+      --border-glow: rgba(147, 197, 253, 0.55);
       
-      --accent-cyan: #38bdf8;
-      --accent-blue: #60a5fa;
-      --accent-emerald: #10b981;
-      --accent-emerald-light: #34d399;
-      --accent-rose: #f43f5e;
-      --accent-rose-light: #fb7185;
-      --accent-amber: #f59e0b;
-      --accent-purple: #a855f7;
+      /* Gentle Pastel Accent Tones */
+      --pastel-blue: #2563eb;
+      --pastel-blue-light: #eff6ff;
+      --pastel-blue-border: #bfdbfe;
       
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --pastel-sage: #059669;
+      --pastel-sage-light: #ecfdf5;
+      --pastel-sage-border: #a7f3d0;
+      
+      --pastel-rose: #be123c;
+      --pastel-rose-light: #fff1f2;
+      --pastel-rose-border: #fecdd3;
+      
+      --pastel-lavender: #6d28d9;
+      --pastel-lavender-light: #f5f3ff;
+      --pastel-lavender-border: #ddd6fe;
+
+      --pastel-amber: #b45309;
+      --pastel-amber-light: #fffbeb;
+      --pastel-amber-border: #fde68a;
+      
+      /* Deep Slate & Soft Charcoal Typography for High Readability */
+      --text-main: #1e293b;
+      --text-muted: #475569;
       --text-dim: #64748b;
       
       --font-main: 'Inter', system-ui, -apple-system, sans-serif;
@@ -50,9 +65,10 @@
     body {
       background-color: var(--bg-primary);
       background-image: 
-        radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
-        linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        radial-gradient(circle at 10% 12%, rgba(224, 231, 255, 0.55) 0%, transparent 45%),
+        radial-gradient(circle at 90% 88%, rgba(254, 226, 226, 0.5) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(236, 253, 245, 0.4) 0%, transparent 60%),
+        linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
       color: var(--text-main);
       font-family: var(--font-main);
       min-height: 100vh;
@@ -67,23 +83,25 @@
     .katex {
       font-size: 1.05em !important;
       text-rendering: auto;
+      color: #0f172a !important;
     }
     
     .math-block {
       margin: 0.85rem auto;
       text-align: center;
-      padding: 0.65rem 1.25rem;
-      background: rgba(15, 23, 42, 0.65);
-      border-radius: 10px;
-      border: 1px solid rgba(56, 189, 248, 0.18);
-      color: #bae6fd;
+      padding: 0.75rem 1.35rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid rgba(203, 213, 225, 0.9);
+      color: #0f172a;
       overflow-x: auto;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 3px rgba(100, 116, 139, 0.05);
     }
 
     .math-inline {
-      color: #38bdf8;
+      color: var(--pastel-blue);
       padding: 0 0.15rem;
+      font-weight: 500;
     }
 
     /* Top Navigation / App Header */
@@ -94,11 +112,12 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--border-color);
-      background: rgba(7, 11, 20, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(14px);
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 1px 4px rgba(100, 116, 139, 0.05);
     }
 
     .brand-section {
@@ -111,19 +130,21 @@
       width: 36px;
       height: 36px;
       border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      background: linear-gradient(135deg, #c7d2fe, #e0e7ff);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: 1.15rem;
-      color: #070b14;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+      color: #312e81;
+      border: 1px solid #a5b4fc;
+      box-shadow: 0 2px 6px rgba(99, 102, 241, 0.12);
     }
 
     .brand-title {
       font-size: 1.05rem;
       font-weight: 700;
+      color: #0f172a;
       letter-spacing: -0.01em;
     }
 
@@ -139,9 +160,9 @@
     }
 
     .slide-counter-badge {
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--accent-cyan);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: var(--pastel-blue-light);
+      color: var(--pastel-blue);
+      border: 1px solid var(--pastel-blue-border);
       padding: 0.35rem 0.95rem;
       border-radius: 9999px;
       font-weight: 600;
@@ -154,16 +175,16 @@
     .progress-bar-container {
       width: 100%;
       height: 4px;
-      background: rgba(255, 255, 255, 0.06);
+      background: #e2e8f0;
       position: relative;
     }
 
     .progress-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      background: linear-gradient(90deg, #60a5fa, #818cf8);
       width: 5%;
       transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 10px var(--accent-cyan);
+      box-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
     }
 
     /* Presentation Main Stage */
@@ -182,10 +203,10 @@
       max-width: 1180px;
       min-height: 560px;
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(226, 232, 240, 0.9);
       border-radius: 20px;
       padding: 2.75rem 3.25rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      box-shadow: 0 20px 40px -15px rgba(100, 116, 139, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(16px);
       animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       position: relative;
@@ -211,11 +232,11 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.3rem 0.85rem;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.28);
+      padding: 0.32rem 0.88rem;
+      background: var(--pastel-blue-light);
+      border: 1px solid var(--pastel-blue-border);
       border-radius: 9999px;
-      color: var(--accent-cyan);
+      color: var(--pastel-blue);
       font-size: 0.82rem;
       font-weight: 600;
       margin-bottom: 0.85rem;
@@ -228,10 +249,7 @@
       font-weight: 800;
       line-height: 1.25;
       margin-bottom: 0.4rem;
-      color: #ffffff;
-      background: linear-gradient(135deg, #ffffff 65%, var(--accent-cyan) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #0f172a;
       letter-spacing: -0.02em;
     }
 
@@ -257,22 +275,23 @@
     }
 
     .card {
-      background: rgba(15, 23, 42, 0.6);
+      background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: 14px;
       padding: 1.5rem;
       transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.04);
     }
 
     .card:hover {
-      border-color: var(--border-glow);
-      background: var(--bg-card-hover);
+      border-color: var(--pastel-blue-border);
+      box-shadow: 0 10px 24px rgba(100, 116, 139, 0.08);
       transform: translateY(-2px);
     }
 
     .card h4 {
       font-size: 1.15rem;
-      color: var(--accent-cyan);
+      color: #1e40af;
       margin-bottom: 0.75rem;
       display: flex;
       align-items: center;
@@ -301,32 +320,32 @@
       content: '◆';
       position: absolute;
       left: 0;
-      color: var(--accent-cyan);
+      color: #3b82f6;
       font-size: 0.75rem;
       top: 0.25rem;
     }
 
     .callout {
-      border-left: 4px solid var(--accent-cyan);
-      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid #60a5fa;
+      background: var(--pastel-blue-light);
       padding: 1.1rem 1.35rem;
       border-radius: 0 12px 12px 0;
       margin: 1.25rem 0;
     }
 
     .callout.theorem {
-      border-left-color: var(--accent-purple);
-      background: rgba(168, 85, 247, 0.08);
+      border-left-color: #a78bfa;
+      background: var(--pastel-lavender-light);
     }
 
     .callout.alert {
-      border-left-color: var(--accent-rose);
-      background: rgba(244, 63, 94, 0.08);
+      border-left-color: #fb7185;
+      background: var(--pastel-rose-light);
     }
 
     .callout.success {
-      border-left-color: var(--accent-emerald);
-      background: rgba(16, 185, 129, 0.08);
+      border-left-color: #34d399;
+      background: var(--pastel-sage-light);
     }
 
     .callout-title {
@@ -338,25 +357,27 @@
       gap: 0.5rem;
     }
 
-    .callout.theorem .callout-title { color: #c084fc; }
-    .callout.alert .callout-title { color: #fb7185; }
-    .callout.success .callout-title { color: #34d399; }
-    .callout .callout-title { color: #38bdf8; }
+    .callout.theorem .callout-title { color: #6d28d9; }
+    .callout.alert .callout-title { color: #be123c; }
+    .callout.success .callout-title { color: #047857; }
+    .callout .callout-title { color: #1d4ed8; }
 
     /* Interactive Simulation Canvas */
     .interactive-canvas-container {
-      background: #060911;
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
       border-radius: 14px;
       overflow: hidden;
       padding: 1rem;
       position: relative;
+      box-shadow: 0 4px 16px rgba(100, 116, 139, 0.06);
     }
 
     canvas.walk-canvas {
       width: 100%;
       height: 240px;
-      background: #090e1a;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       border-radius: 8px;
       display: block;
     }
@@ -369,13 +390,13 @@
       gap: 1rem;
       margin-top: 0.9rem;
       padding-top: 0.75rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid #e2e8f0;
     }
 
     .sim-btn {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent-cyan);
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: var(--pastel-blue-light);
+      color: var(--pastel-blue);
+      border: 1px solid var(--pastel-blue-border);
       padding: 0.45rem 1rem;
       border-radius: 8px;
       font-size: 0.9rem;
@@ -388,32 +409,32 @@
     }
 
     .sim-btn:hover {
-      background: var(--accent-cyan);
-      color: #070b14;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+      background: #3b82f6;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
     }
 
     .sim-btn.danger {
-      background: rgba(244, 63, 94, 0.15);
-      color: var(--accent-rose-light);
-      border-color: rgba(244, 63, 94, 0.4);
+      background: var(--pastel-rose-light);
+      color: var(--pastel-rose);
+      border-color: var(--pastel-rose-border);
     }
     .sim-btn.danger:hover {
-      background: var(--accent-rose);
+      background: #e11d48;
       color: #ffffff;
-      box-shadow: 0 0 12px rgba(244, 63, 94, 0.5);
+      box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);
     }
 
     .sim-stat-pill {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       padding: 0.35rem 0.8rem;
       border-radius: 8px;
       font-size: 0.85rem;
       color: var(--text-muted);
     }
     .sim-stat-pill strong {
-      color: #ffffff;
+      color: #0f172a;
       font-family: var(--font-mono);
       margin-left: 0.3rem;
     }
@@ -427,23 +448,23 @@
     }
 
     .academic-table th {
-      background: rgba(30, 41, 59, 0.7);
-      color: var(--accent-cyan);
+      background: #f1f5f9;
+      color: #1e293b;
       text-align: left;
       padding: 0.75rem 1rem;
-      border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+      border-bottom: 2px solid #cbd5e1;
       font-weight: 600;
     }
 
     .academic-table td {
       padding: 0.7rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid #f1f5f9;
       color: var(--text-muted);
     }
 
     .academic-table tr:hover td {
-      background: rgba(56, 189, 248, 0.04);
-      color: #ffffff;
+      background: #f8fafc;
+      color: #0f172a;
     }
 
     /* Fixed Bottom Navigation Dock */
@@ -453,7 +474,7 @@
       left: 0;
       right: 0;
       height: 60px;
-      background: rgba(7, 11, 20, 0.92);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(14px);
       border-top: 1px solid var(--border-color);
       display: flex;
@@ -461,6 +482,7 @@
       justify-content: space-between;
       padding: 0 2rem;
       z-index: 100;
+      box-shadow: 0 -1px 6px rgba(100, 116, 139, 0.05);
     }
 
     .nav-buttons-group {
@@ -470,8 +492,8 @@
     }
 
     .nav-btn {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(99, 132, 194, 0.3);
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
       color: var(--text-main);
       padding: 0.5rem 1.15rem;
       border-radius: 9px;
@@ -486,20 +508,26 @@
     }
 
     .nav-btn:hover:not(:disabled) {
-      background: rgba(56, 189, 248, 0.2);
-      border-color: var(--accent-cyan);
-      color: #ffffff;
+      background: #eff6ff;
+      border-color: #93c5fd;
+      color: #1d4ed8;
       transform: translateY(-1px);
     }
 
     .nav-btn:disabled {
-      opacity: 0.35;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
     .nav-btn.primary {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(168, 85, 247, 0.28));
-      border-color: rgba(56, 189, 248, 0.5);
+      background: linear-gradient(135deg, #e0e7ff, #ede9fe);
+      border-color: #c7d2fe;
+      color: #4338ca;
+    }
+
+    .nav-btn.primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #c7d2fe, #ddd6fe);
+      color: #312e81;
     }
 
     .nav-hints {
@@ -511,13 +539,13 @@
     }
 
     kbd {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
       border-radius: 4px;
       padding: 0.15rem 0.4rem;
       font-family: var(--font-mono);
       font-size: 0.75rem;
-      color: var(--accent-cyan);
+      color: #2563eb;
     }
 
     /* Modal Slide Index Drawer */
@@ -525,7 +553,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(15, 23, 42, 0.4);
       backdrop-filter: blur(6px);
       z-index: 200;
       align-items: center;
@@ -540,12 +568,12 @@
       width: 90%;
       max-width: 860px;
       max-height: 80vh;
-      background: #0d1527;
-      border: 1px solid var(--border-glow);
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
       border-radius: 18px;
       padding: 2rem;
       overflow-y: auto;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 25px 50px -12px rgba(100, 116, 139, 0.25);
     }
 
     .drawer-grid {
@@ -556,8 +584,8 @@
     }
 
     .drawer-item {
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       padding: 0.85rem;
       border-radius: 10px;
       cursor: pointer;
@@ -566,31 +594,32 @@
     }
 
     .drawer-item:hover, .drawer-item.active {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: var(--accent-cyan);
+      background: #eff6ff;
+      border-color: #93c5fd;
     }
 
     .drawer-item-num {
       font-size: 0.75rem;
-      color: var(--accent-cyan);
+      color: #2563eb;
       font-weight: 700;
       margin-bottom: 0.25rem;
     }
 
     .drawer-item-title {
       font-size: 0.85rem;
-      color: #ffffff;
+      color: #1e293b;
       font-weight: 500;
       line-height: 1.4;
     }
 
     /* Interactive Calculator Widgets */
     .calc-box {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 1.25rem;
       margin-top: 1rem;
+      box-shadow: 0 2px 8px rgba(100, 116, 139, 0.04);
     }
     .slider-row {
       display: flex;
@@ -606,11 +635,12 @@
     }
     .slider-row input[type="range"] {
       flex: 1;
-      accent-color: var(--accent-cyan);
+      accent-color: #3b82f6;
     }
     .slider-val {
       font-family: var(--font-mono);
-      color: var(--accent-cyan);
+      color: #2563eb;
+      font-weight: 600;
       min-width: 50px;
       text-align: right;
     }
@@ -618,11 +648,12 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      background: rgba(0, 0, 0, 0.45);
+      background: #ffffff;
       padding: 0.85rem;
       border-radius: 8px;
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      border: 1px solid #e2e8f0;
       margin-top: 0.85rem;
+      box-shadow: 0 1px 3px rgba(100, 116, 139, 0.05);
     }
 
     @media (max-width: 900px) {
@@ -985,7 +1016,7 @@
           $$R_k - R_0 = (R_1 - 1) \sum_{j=0}^{k-1} \lambda^j = (R_1 - 1) \frac{1 - \lambda^k}{1 - \lambda}$$
         </div>
         <p>Applying the boundary condition $R_N = 0$ yields the general analytical closed-form solution:</p>
-        <div class="math-block" style="font-size: 1.15rem; color: #38bdf8;">
+        <div class="math-block" style="font-size: 1.15rem;">
           $$R_k = \frac{\left(\frac{q}{p}\right)^k - \left(\frac{q}{p}\right)^N}{1 - \left(\frac{q}{p}\right)^N} = \frac{\lambda^k - \lambda^N}{1 - \lambda^N}$$
         </div>
       </div>
@@ -1117,7 +1148,7 @@
       <div class="card">
         <h4>General Closed-Form Solution ($p \neq q$)</h4>
         <p>Solving the inhomogeneous second-order difference equation yields:</p>
-        <div class="math-block" style="font-size: 1.15rem; color: #38bdf8;">
+        <div class="math-block" style="font-size: 1.15rem;">
           $$D_k = \frac{1}{q - p} \left[ k - N \cdot \frac{1 - \left(\frac{q}{p}\right)^k}{1 - \left(\frac{q}{p}\right)^N} \right]$$
         </div>
       </div>
@@ -1250,15 +1281,15 @@
 
         <div class="card">
           <h4>Python Implementation Schema</h4>
-          <pre style="background: #090e1a; padding: 1rem; border-radius: 8px; font-size: 0.82rem; color: #93c5fd; overflow-x: auto; border: 1px solid rgba(56, 189, 248, 0.2); font-family: var(--font-mono);">
-def simulate_single_path(k, N, p, max_steps=100000):
+          <pre style="background: #f8fafc; padding: 1rem; border-radius: 8px; font-size: 0.82rem; color: #1e293b; overflow-x: auto; border: 1px solid #cbd5e1; font-family: var(--font-mono);">
+<span style="color: #7c3aed;">def</span> <span style="color: #2563eb;">simulate_single_path</span>(k, N, p, max_steps=<span style="color: #b45309;">100000</span>):
     pos = k
-    steps = 0
-    while 0 &lt; pos &lt; N and steps &lt; max_steps:
-        step = 1 if np.random.rand() &lt; p else -1
+    steps = <span style="color: #b45309;">0</span>
+    <span style="color: #7c3aed;">while</span> <span style="color: #b45309;">0</span> &lt; pos &lt; N <span style="color: #7c3aed;">and</span> steps &lt; max_steps:
+        step = <span style="color: #b45309;">1</span> <span style="color: #7c3aed;">if</span> np.random.rand() &lt; p <span style="color: #7c3aed;">else</span> -<span style="color: #b45309;">1</span>
         pos += step
-        steps += 1
-    return (pos == 0), steps  # (is_ruined, duration)</pre>
+        steps += <span style="color: #b45309;">1</span>
+    <span style="color: #7c3aed;">return</span> (pos == <span style="color: #b45309;">0</span>), steps  <span style="color: #059669;"># (is_ruined, duration)</span></pre>
           <div class="sim-stat-pill" style="margin-top: 0.8rem;">
             Throughput: <strong>&gt; 50,000</strong> complete trajectories simulated in &lt; 1.5 seconds.
           </div>
@@ -1310,7 +1341,7 @@ def simulate_single_path(k, N, p, max_steps=100000):
         <div class="card">
           <h4>Convergence Rate & Asymptotics</h4>
           <p>By the Central Limit Theorem (CLT), simulation estimation error decays strictly at rate:</p>
-          <div class="math-block" style="font-size: 1.15rem; color: #a855f7;">
+          <div class="math-block" style="font-size: 1.15rem;">
             $$\text{Error}(M) = \mathcal{O}\left(\frac{1}{\sqrt{M}}\right)$$
           </div>
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.75rem;">
@@ -1466,8 +1497,8 @@ def simulate_single_path(k, N, p, max_steps=100000):
         <h4>CLI Execution & Collaborator Access</h4>
         <p style="color: var(--text-muted); font-size: 0.92rem;">
           The Python verification engine can be executed via PowerShell:
-          <code style="background: rgba(0,0,0,0.5); color: #38bdf8; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: var(--font-mono);">python script.py --trials 50000 --capital 10 --target 30</code>
-          <br>Repository collaborator access is maintained for: <strong style="color: #ffffff;">rmisegal@gmail.com</strong>.
+          <code style="background: #e2e8f0; color: #0f172a; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: var(--font-mono);">python script.py --trials 50000 --capital 10 --target 30</code>
+          <br>Repository collaborator access is maintained for: <strong style="color: #0f172a;">rmisegal@gmail.com</strong>.
         </p>
       </div>
     </section>
@@ -1478,7 +1509,7 @@ def simulate_single_path(k, N, p, max_steps=100000):
   <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer(event)">
     <div class="drawer-modal" onclick="event.stopPropagation()">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
-        <h3 style="color: #ffffff; font-size: 1.25rem;">Presentation Slide Index</h3>
+        <h3 style="color: #0f172a; font-size: 1.25rem;">Presentation Slide Index</h3>
         <button class="nav-btn" onclick="toggleDrawer(false)">✕ Close</button>
       </div>
       <div class="drawer-grid" id="drawer-grid"></div>
@@ -1748,7 +1779,7 @@ def simulate_single_path(k, N, p, max_steps=100000):
       const height = simCanvas.getBoundingClientRect().height;
 
       // Clear Canvas
-      simCtx.fillStyle = '#090e1a';
+      simCtx.fillStyle = '#f8fafc';
       simCtx.fillRect(0, 0, width, height);
 
       const padding = 30;
@@ -1758,7 +1789,7 @@ def simulate_single_path(k, N, p, max_steps=100000):
       // Draw Boundary Lines
       // Upper Boundary (Target at N=20)
       const yN = padding;
-      simCtx.strokeStyle = 'rgba(16, 185, 129, 0.6)';
+      simCtx.strokeStyle = 'rgba(5, 150, 105, 0.7)';
       simCtx.lineWidth = 2;
       simCtx.setLineDash([6, 4]);
       simCtx.beginPath();
@@ -1766,25 +1797,25 @@ def simulate_single_path(k, N, p, max_steps=100000):
       simCtx.lineTo(width - padding, yN);
       simCtx.stroke();
 
-      simCtx.fillStyle = '#34d399';
-      simCtx.font = '12px JetBrains Mono, monospace';
+      simCtx.fillStyle = '#047857';
+      simCtx.font = '600 12px JetBrains Mono, monospace';
       simCtx.textAlign = 'left';
       simCtx.fillText('Target (N = 20) Win', padding + 10, yN - 8);
 
       // Lower Boundary (Ruin at 0)
       const y0 = height - padding;
-      simCtx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
+      simCtx.strokeStyle = 'rgba(225, 29, 72, 0.7)';
       simCtx.beginPath();
       simCtx.moveTo(padding, y0);
       simCtx.lineTo(width - padding, y0);
       simCtx.stroke();
 
-      simCtx.fillStyle = '#fb7185';
+      simCtx.fillStyle = '#be123c';
       simCtx.fillText('Ruin (0) Loss', padding + 10, y0 + 18);
 
       // Midline (Start k=10)
       const yMid = padding + plotHeight / 2;
-      simCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      simCtx.strokeStyle = 'rgba(203, 213, 225, 0.8)';
       simCtx.setLineDash([2, 4]);
       simCtx.beginPath();
       simCtx.moveTo(padding, yMid);
@@ -1794,7 +1825,7 @@ def simulate_single_path(k, N, p, max_steps=100000):
 
       // Draw Path
       if (simPath.length > 1) {
-        simCtx.strokeStyle = '#38bdf8';
+        simCtx.strokeStyle = '#2563eb';
         simCtx.lineWidth = 2.5;
         simCtx.beginPath();
 
@@ -1812,9 +1843,9 @@ def simulate_single_path(k, N, p, max_steps=100000):
         const headX = padding + lastIdx * xStep;
         const headY = y0 - (simPath[lastIdx] / simMaxN) * plotHeight;
 
-        simCtx.shadowColor = '#38bdf8';
-        simCtx.shadowBlur = 12;
-        simCtx.fillStyle = '#ffffff';
+        simCtx.shadowColor = 'rgba(37, 99, 235, 0.35)';
+        simCtx.shadowBlur = 8;
+        simCtx.fillStyle = '#1d4ed8';
         simCtx.beginPath();
         simCtx.arc(headX, headY, 5, 0, Math.PI * 2);
         simCtx.fill();
