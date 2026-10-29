@@ -17,40 +17,50 @@
 
   <style>
     :root {
-      /* Soft Calming Pastel Backgrounds */
-      --bg-primary: #f8fafc;
-      --bg-secondary: #f1f5f9;
-      --bg-surface: #ffffff;
-      --bg-card: rgba(255, 255, 255, 0.92);
-      --bg-card-hover: #ffffff;
-      --border-color: rgba(203, 213, 225, 0.8);
-      --border-glow: rgba(147, 197, 253, 0.55);
-      
-      /* Gentle Pastel Accent Tones */
-      --pastel-blue: #2563eb;
-      --pastel-blue-light: #eff6ff;
-      --pastel-blue-border: #bfdbfe;
-      
-      --pastel-sage: #059669;
-      --pastel-sage-light: #ecfdf5;
-      --pastel-sage-border: #a7f3d0;
-      
-      --pastel-rose: #be123c;
-      --pastel-rose-light: #fff1f2;
-      --pastel-rose-border: #fecdd3;
-      
-      --pastel-lavender: #6d28d9;
-      --pastel-lavender-light: #f5f3ff;
-      --pastel-lavender-border: #ddd6fe;
+      /* Soft Warm Cream Base Backgrounds */
+      --bg-primary: #FAF8F5;
+      --bg-secondary: #F4F0E8;
+      --bg-surface: #FFFFFF;
+      --bg-card: rgba(253, 251, 247, 0.95);
+      --bg-card-hover: #FFFFFF;
+      --border-color: rgba(226, 218, 206, 0.9);
+      --border-glow: rgba(194, 215, 238, 0.6);
 
-      --pastel-amber: #b45309;
-      --pastel-amber-light: #fffbeb;
-      --pastel-amber-border: #fde68a;
+      /* Rich Variety of Soft Pastel Accents */
+      /* Soft Pastel Blue */
+      --pastel-blue-bg: #EEF5FB;
+      --pastel-blue-border: #C4DCF2;
+      --pastel-blue-text: #215993;
+      --pastel-blue-title: #1E3A8A;
       
-      /* Deep Slate & Soft Charcoal Typography for High Readability */
-      --text-main: #1e293b;
+      /* Gentle Sage Green */
+      --pastel-sage-bg: #EEF6F1;
+      --pastel-sage-border: #C2DFCE;
+      --pastel-sage-text: #1B6543;
+      --pastel-sage-title: #14532D;
+
+      /* Muted Lavender */
+      --pastel-lavender-bg: #F4F0FA;
+      --pastel-lavender-border: #D8CEF0;
+      --pastel-lavender-text: #5B3EA3;
+      --pastel-lavender-title: #4C1D95;
+
+      /* Dusty Rose */
+      --pastel-rose-bg: #FAF0F2;
+      --pastel-rose-border: #ECCDD2;
+      --pastel-rose-text: #A12C3F;
+      --pastel-rose-title: #881337;
+
+      /* Warm Amber / Peach */
+      --pastel-amber-bg: #FAF5EB;
+      --pastel-amber-border: #EBDDC2;
+      --pastel-amber-text: #8E5316;
+      --pastel-amber-title: #78350F;
+
+      /* Deep Slate & Charcoal Typography for High Contrast & Readability */
+      --text-main: #1E293B;
       --text-muted: #475569;
-      --text-dim: #64748b;
+      --text-dim: #64748B;
       
       --font-main: 'Inter', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -65,10 +75,10 @@
     body {
       background-color: var(--bg-primary);
       background-image: 
-        radial-gradient(circle at 10% 12%, rgba(224, 231, 255, 0.55) 0%, transparent 45%),
-        radial-gradient(circle at 90% 88%, rgba(254, 226, 226, 0.5) 0%, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(236, 253, 245, 0.4) 0%, transparent 60%),
-        linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+        radial-gradient(circle at 10% 12%, rgba(246, 239, 230, 0.8) 0%, transparent 45%),
+        radial-gradient(circle at 90% 88%, rgba(240, 235, 246, 0.7) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(235, 244, 238, 0.55) 0%, transparent 60%),
+        linear-gradient(180deg, #FAF8F5 0%, #F4F0E8 100%);
       color: var(--text-main);
       font-family: var(--font-main);
       min-height: 100vh;
@@ -83,23 +93,23 @@
     .katex {
       font-size: 1.05em !important;
       text-rendering: auto;
-      color: #0f172a !important;
+      color: #0F172A !important;
     }
     
     .math-block {
       margin: 0.85rem auto;
       text-align: center;
       padding: 0.75rem 1.35rem;
-      background: #f8fafc;
+      background: #F5F1E9;
       border-radius: 12px;
-      border: 1px solid rgba(203, 213, 225, 0.9);
-      color: #0f172a;
+      border: 1px solid rgba(216, 206, 192, 0.95);
+      color: #0F172A;
       overflow-x: auto;
-      box-shadow: 0 1px 3px rgba(100, 116, 139, 0.05);
+      box-shadow: 0 1px 3px rgba(120, 105, 85, 0.05);
     }
 
     .math-inline {
-      color: var(--pastel-blue);
+      color: var(--pastel-blue-title);
       padding: 0 0.15rem;
       font-weight: 500;
     }
@@ -112,12 +122,12 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid var(--border-color);
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(250, 248, 245, 0.94);
       backdrop-filter: blur(14px);
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 4px rgba(100, 116, 139, 0.05);
+      box-shadow: 0 1px 4px rgba(120, 105, 85, 0.05);
     }
 
     .brand-section {
@@ -130,21 +140,21 @@
       width: 36px;
       height: 36px;
       border-radius: 10px;
-      background: linear-gradient(135deg, #c7d2fe, #e0e7ff);
+      background: linear-gradient(135deg, #E8E2F5, #DCD3F0);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: 1.15rem;
-      color: #312e81;
-      border: 1px solid #a5b4fc;
-      box-shadow: 0 2px 6px rgba(99, 102, 241, 0.12);
+      color: #4C1D95;
+      border: 1px solid #C9BAE6;
+      box-shadow: 0 2px 6px rgba(109, 40, 217, 0.12);
     }
 
     .brand-title {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #0f172a;
+      color: #0F172A;
       letter-spacing: -0.01em;
     }
 
@@ -160,9 +170,9 @@
     }
 
     .slide-counter-badge {
-      background: var(--pastel-blue-light);
-      color: var(--pastel-blue);
-      border: 1px solid var(--pastel-blue-border);
+      background: var(--pastel-lavender-bg);
+      color: var(--pastel-lavender-text);
+      border: 1px solid var(--pastel-lavender-border);
       padding: 0.35rem 0.95rem;
       border-radius: 9999px;
       font-weight: 600;
@@ -175,16 +185,16 @@
     .progress-bar-container {
       width: 100%;
       height: 4px;
-      background: #e2e8f0;
+      background: #E8E2D8;
       position: relative;
     }
 
     .progress-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, #60a5fa, #818cf8);
+      background: linear-gradient(90deg, #7C3AED, #3B82F6, #10B981);
       width: 5%;
       transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
+      box-shadow: 0 0 8px rgba(124, 58, 237, 0.35);
     }
 
     /* Presentation Main Stage */
@@ -203,10 +213,10 @@
       max-width: 1180px;
       min-height: 560px;
       background: var(--bg-card);
-      border: 1px solid rgba(226, 232, 240, 0.9);
+      border: 1px solid var(--border-color);
       border-radius: 20px;
       padding: 2.75rem 3.25rem;
-      box-shadow: 0 20px 40px -15px rgba(100, 116, 139, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 20px 40px -15px rgba(120, 105, 85, 0.09), 0 0 0 1px rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(16px);
       animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       position: relative;
@@ -227,16 +237,16 @@
       }
     }
 
-    /* Slide Content Typography */
+    /* Slide Content Typography & Badges */
     .slide-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       padding: 0.32rem 0.88rem;
-      background: var(--pastel-blue-light);
+      background: var(--pastel-blue-bg);
       border: 1px solid var(--pastel-blue-border);
       border-radius: 9999px;
-      color: var(--pastel-blue);
+      color: var(--pastel-blue-text);
       font-size: 0.82rem;
       font-weight: 600;
       margin-bottom: 0.85rem;
@@ -244,12 +254,38 @@
       letter-spacing: 0.05em;
     }
 
+    .slide-badge.badge-blue {
+      background: var(--pastel-blue-bg);
+      color: var(--pastel-blue-text);
+      border-color: var(--pastel-blue-border);
+    }
+    .slide-badge.badge-sage {
+      background: var(--pastel-sage-bg);
+      color: var(--pastel-sage-text);
+      border-color: var(--pastel-sage-border);
+    }
+    .slide-badge.badge-lavender {
+      background: var(--pastel-lavender-bg);
+      color: var(--pastel-lavender-text);
+      border-color: var(--pastel-lavender-border);
+    }
+    .slide-badge.badge-rose {
+      background: var(--pastel-rose-bg);
+      color: var(--pastel-rose-text);
+      border-color: var(--pastel-rose-border);
+    }
+    .slide-badge.badge-amber {
+      background: var(--pastel-amber-bg);
+      color: var(--pastel-amber-text);
+      border-color: var(--pastel-amber-border);
+    }
+
     .slide-title {
       font-size: 2.2rem;
       font-weight: 800;
       line-height: 1.25;
       margin-bottom: 0.4rem;
-      color: #0f172a;
+      color: #0F172A;
       letter-spacing: -0.02em;
     }
 
@@ -275,28 +311,58 @@
     }
 
     .card {
-      background: #ffffff;
+      background: #FFFFFF;
       border: 1px solid var(--border-color);
       border-radius: 14px;
       padding: 1.5rem;
       transition: all 0.25s ease;
-      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.04);
+      box-shadow: 0 4px 12px rgba(120, 105, 85, 0.04);
     }
 
     .card:hover {
-      border-color: var(--pastel-blue-border);
-      box-shadow: 0 10px 24px rgba(100, 116, 139, 0.08);
+      box-shadow: 0 10px 24px rgba(120, 105, 85, 0.08);
       transform: translateY(-2px);
     }
 
     .card h4 {
       font-size: 1.15rem;
-      color: #1e40af;
+      color: var(--pastel-blue-title);
       margin-bottom: 0.75rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
+
+    /* Rich Pastel Card Variants */
+    .card.card-blue {
+      background: var(--pastel-blue-bg);
+      border-color: var(--pastel-blue-border);
+    }
+    .card.card-blue h4 { color: var(--pastel-blue-title); }
+
+    .card.card-sage {
+      background: var(--pastel-sage-bg);
+      border-color: var(--pastel-sage-border);
+    }
+    .card.card-sage h4 { color: var(--pastel-sage-title); }
+
+    .card.card-lavender {
+      background: var(--pastel-lavender-bg);
+      border-color: var(--pastel-lavender-border);
+    }
+    .card.card-lavender h4 { color: var(--pastel-lavender-title); }
+
+    .card.card-rose {
+      background: var(--pastel-rose-bg);
+      border-color: var(--pastel-rose-border);
+    }
+    .card.card-rose h4 { color: var(--pastel-rose-title); }
+
+    .card.card-amber {
+      background: var(--pastel-amber-bg);
+      border-color: var(--pastel-amber-border);
+    }
+    .card.card-amber h4 { color: var(--pastel-amber-title); }
 
     .card p, .card li {
       color: var(--text-muted);
@@ -320,32 +386,53 @@
       content: '◆';
       position: absolute;
       left: 0;
-      color: #3b82f6;
+      color: var(--pastel-blue-text);
       font-size: 0.75rem;
       top: 0.25rem;
     }
 
+    /* Pastel Callout Variants */
     .callout {
-      border-left: 4px solid #60a5fa;
-      background: var(--pastel-blue-light);
+      border-left: 4px solid var(--pastel-blue-title);
+      background: var(--pastel-blue-bg);
       padding: 1.1rem 1.35rem;
       border-radius: 0 12px 12px 0;
       margin: 1.25rem 0;
+      border-top: 1px solid var(--pastel-blue-border);
+      border-right: 1px solid var(--pastel-blue-border);
+      border-bottom: 1px solid var(--pastel-blue-border);
     }
 
-    .callout.theorem {
-      border-left-color: #a78bfa;
-      background: var(--pastel-lavender-light);
+    .callout.theorem, .callout.lavender {
+      border-left-color: var(--pastel-lavender-title);
+      background: var(--pastel-lavender-bg);
+      border-top-color: var(--pastel-lavender-border);
+      border-right-color: var(--pastel-lavender-border);
+      border-bottom-color: var(--pastel-lavender-border);
     }
 
-    .callout.alert {
-      border-left-color: #fb7185;
-      background: var(--pastel-rose-light);
+    .callout.alert, .callout.rose {
+      border-left-color: var(--pastel-rose-title);
+      background: var(--pastel-rose-bg);
+      border-top-color: var(--pastel-rose-border);
+      border-right-color: var(--pastel-rose-border);
+      border-bottom-color: var(--pastel-rose-border);
     }
 
-    .callout.success {
-      border-left-color: #34d399;
-      background: var(--pastel-sage-light);
+    .callout.success, .callout.sage {
+      border-left-color: var(--pastel-sage-title);
+      background: var(--pastel-sage-bg);
+      border-top-color: var(--pastel-sage-border);
+      border-right-color: var(--pastel-sage-border);
+      border-bottom-color: var(--pastel-sage-border);
+    }
+
+    .callout.amber {
+      border-left-color: var(--pastel-amber-title);
+      background: var(--pastel-amber-bg);
+      border-top-color: var(--pastel-amber-border);
+      border-right-color: var(--pastel-amber-border);
+      border-bottom-color: var(--pastel-amber-border);
     }
 
     .callout-title {
@@ -357,27 +444,28 @@
       gap: 0.5rem;
     }
 
-    .callout.theorem .callout-title { color: #6d28d9; }
-    .callout.alert .callout-title { color: #be123c; }
-    .callout.success .callout-title { color: #047857; }
-    .callout .callout-title { color: #1d4ed8; }
+    .callout.theorem .callout-title, .callout.lavender .callout-title { color: var(--pastel-lavender-title); }
+    .callout.alert .callout-title, .callout.rose .callout-title { color: var(--pastel-rose-title); }
+    .callout.success .callout-title, .callout.sage .callout-title { color: var(--pastel-sage-title); }
+    .callout.amber .callout-title { color: var(--pastel-amber-title); }
+    .callout .callout-title { color: var(--pastel-blue-title); }
 
     /* Interactive Simulation Canvas */
     .interactive-canvas-container {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
       border-radius: 14px;
       overflow: hidden;
       padding: 1rem;
       position: relative;
-      box-shadow: 0 4px 16px rgba(100, 116, 139, 0.06);
+      box-shadow: 0 4px 16px rgba(120, 105, 85, 0.05);
     }
 
     canvas.walk-canvas {
       width: 100%;
       height: 240px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #F8F5EE;
+      border: 1px solid #E2D9CC;
       border-radius: 8px;
       display: block;
     }
@@ -390,12 +478,12 @@
       gap: 1rem;
       margin-top: 0.9rem;
       padding-top: 0.75rem;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #EAE3D5;
     }
 
     .sim-btn {
-      background: var(--pastel-blue-light);
-      color: var(--pastel-blue);
+      background: var(--pastel-blue-bg);
+      color: var(--pastel-blue-title);
       border: 1px solid var(--pastel-blue-border);
       padding: 0.45rem 1rem;
       border-radius: 8px;
@@ -409,32 +497,32 @@
     }
 
     .sim-btn:hover {
-      background: #3b82f6;
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+      background: #2563EB;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
     }
 
     .sim-btn.danger {
-      background: var(--pastel-rose-light);
-      color: var(--pastel-rose);
+      background: var(--pastel-rose-bg);
+      color: var(--pastel-rose-title);
       border-color: var(--pastel-rose-border);
     }
     .sim-btn.danger:hover {
-      background: #e11d48;
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);
+      background: #BE123C;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(190, 18, 60, 0.25);
     }
 
     .sim-stat-pill {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #F8F5EE;
+      border: 1px solid #E2D9CC;
       padding: 0.35rem 0.8rem;
       border-radius: 8px;
       font-size: 0.85rem;
       color: var(--text-muted);
     }
     .sim-stat-pill strong {
-      color: #0f172a;
+      color: #0F172A;
       font-family: var(--font-mono);
       margin-left: 0.3rem;
     }
@@ -448,23 +536,23 @@
     }
 
     .academic-table th {
-      background: #f1f5f9;
-      color: #1e293b;
+      background: #F4EFE6;
+      color: #0F172A;
       text-align: left;
       padding: 0.75rem 1rem;
-      border-bottom: 2px solid #cbd5e1;
+      border-bottom: 2px solid #DCD3C7;
       font-weight: 600;
     }
 
     .academic-table td {
       padding: 0.7rem 1rem;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid #F0EAE1;
       color: var(--text-muted);
     }
 
     .academic-table tr:hover td {
-      background: #f8fafc;
-      color: #0f172a;
+      background: #F9F6F0;
+      color: #0F172A;
     }
 
     /* Fixed Bottom Navigation Dock */
@@ -474,7 +562,7 @@
       left: 0;
       right: 0;
       height: 60px;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(250, 248, 245, 0.94);
       backdrop-filter: blur(14px);
       border-top: 1px solid var(--border-color);
       display: flex;
@@ -482,7 +570,7 @@
       justify-content: space-between;
       padding: 0 2rem;
       z-index: 100;
-      box-shadow: 0 -1px 6px rgba(100, 116, 139, 0.05);
+      box-shadow: 0 -1px 6px rgba(120, 105, 85, 0.05);
     }
 
     .nav-buttons-group {
@@ -492,8 +580,8 @@
     }
 
     .nav-btn {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
+      background: #FFFFFF;
+      border: 1px solid #D8CFC2;
       color: var(--text-main);
       padding: 0.5rem 1.15rem;
       border-radius: 9px;
@@ -508,9 +596,9 @@
     }
 
     .nav-btn:hover:not(:disabled) {
-      background: #eff6ff;
-      border-color: #93c5fd;
-      color: #1d4ed8;
+      background: var(--pastel-blue-bg);
+      border-color: var(--pastel-blue-border);
+      color: var(--pastel-blue-title);
       transform: translateY(-1px);
     }
 
@@ -520,14 +608,14 @@
     }
 
     .nav-btn.primary {
-      background: linear-gradient(135deg, #e0e7ff, #ede9fe);
-      border-color: #c7d2fe;
-      color: #4338ca;
+      background: linear-gradient(135deg, #E8E2F5, #EDE9FE);
+      border-color: #D4C9EE;
+      color: #4C1D95;
     }
 
     .nav-btn.primary:hover:not(:disabled) {
-      background: linear-gradient(135deg, #c7d2fe, #ddd6fe);
-      color: #312e81;
+      background: linear-gradient(135deg, #DDD4F0, #D9CEF0);
+      color: #3B1676;
     }
 
     .nav-hints {
@@ -539,13 +627,13 @@
     }
 
     kbd {
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
+      background: #F4EFE6;
+      border: 1px solid #D8CFC2;
       border-radius: 4px;
       padding: 0.15rem 0.4rem;
       font-family: var(--font-mono);
       font-size: 0.75rem;
-      color: #2563eb;
+      color: #4C1D95;
     }
 
     /* Modal Slide Index Drawer */
@@ -553,7 +641,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(40, 35, 30, 0.4);
       backdrop-filter: blur(6px);
       z-index: 200;
       align-items: center;
@@ -568,12 +656,12 @@
       width: 90%;
       max-width: 860px;
       max-height: 80vh;
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
+      background: #FAF8F5;
+      border: 1px solid #DCD3C7;
       border-radius: 18px;
       padding: 2rem;
       overflow-y: auto;
-      box-shadow: 0 25px 50px -12px rgba(100, 116, 139, 0.25);
+      box-shadow: 0 25px 50px -12px rgba(120, 105, 85, 0.25);
     }
 
     .drawer-grid {
@@ -584,8 +672,8 @@
     }
 
     .drawer-item {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #FFFFFF;
+      border: 1px solid #E6DED2;
       padding: 0.85rem;
       border-radius: 10px;
       cursor: pointer;
@@ -594,32 +682,32 @@
     }
 
     .drawer-item:hover, .drawer-item.active {
-      background: #eff6ff;
-      border-color: #93c5fd;
+      background: var(--pastel-lavender-bg);
+      border-color: var(--pastel-lavender-border);
     }
 
     .drawer-item-num {
       font-size: 0.75rem;
-      color: #2563eb;
+      color: var(--pastel-lavender-text);
       font-weight: 700;
       margin-bottom: 0.25rem;
     }
 
     .drawer-item-title {
       font-size: 0.85rem;
-      color: #1e293b;
+      color: #1E293B;
       font-weight: 500;
       line-height: 1.4;
     }
 
     /* Interactive Calculator Widgets */
     .calc-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #F8F5EE;
+      border: 1px solid #E2D9CC;
       border-radius: 12px;
       padding: 1.25rem;
       margin-top: 1rem;
-      box-shadow: 0 2px 8px rgba(100, 116, 139, 0.04);
+      box-shadow: 0 2px 8px rgba(120, 105, 85, 0.04);
     }
     .slider-row {
       display: flex;
@@ -635,11 +723,11 @@
     }
     .slider-row input[type="range"] {
       flex: 1;
-      accent-color: #3b82f6;
+      accent-color: #2563EB;
     }
     .slider-val {
       font-family: var(--font-mono);
-      color: #2563eb;
+      color: var(--pastel-blue-title);
       font-weight: 600;
       min-width: 50px;
       text-align: right;
@@ -648,12 +736,12 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      background: #ffffff;
+      background: #FFFFFF;
       padding: 0.85rem;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #E2D9CC;
       margin-top: 0.85rem;
-      box-shadow: 0 1px 3px rgba(100, 116, 139, 0.05);
+      box-shadow: 0 1px 3px rgba(120, 105, 85, 0.05);
     }
 
     @media (max-width: 900px) {
@@ -700,12 +788,12 @@
 
     <!-- ==================== SLIDE 01: DEDICATED TITLE SLIDE ==================== -->
     <section class="slide active" data-slide="1">
-      <div class="slide-badge">Academic Lecture Series | Stochastic Processes</div>
+      <div class="slide-badge badge-lavender">Academic Lecture Series | Stochastic Processes</div>
       <h1 class="slide-title">Simple Random Walk & The Gambler's Ruin Problem</h1>
       <p class="slide-subtitle">Bridging Rigorous Probability Theory with Interactive Visual Storytelling</p>
       
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-lavender">
           <h4>Executive Overview & Research Scope</h4>
           <p>
             The Gambler's Ruin Problem is one of the foundational paradigms in classical and modern probability theory.
@@ -721,7 +809,7 @@
           </div>
         </div>
 
-        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div class="card card-blue" style="display: flex; flex-direction: column; justify-content: space-between;">
           <div>
             <h4>Pedagogical Architecture</h4>
             <ul class="academic-list">
@@ -740,26 +828,26 @@
 
     <!-- ==================== SLIDE 02: MOTIVATION & APPLICATIONS ==================== -->
     <section class="slide" data-slide="2">
-      <div class="slide-badge">02 | Motivation & Context</div>
+      <div class="slide-badge badge-sage">02 | Motivation & Context</div>
       <h2 class="slide-title">From Microscopic Fluctuation to Universal Law</h2>
       <p class="slide-subtitle">Why a simple coin-toss sequence dictates market crashes and genetic drift</p>
 
       <div class="grid-3">
-        <div class="card">
+        <div class="card card-blue">
           <h4>Quantitative Finance</h4>
           <p>
             Stock price fluctuations, currency exchange rates, and the continuous-time limits of the Black-Scholes formula
             converge directly from discrete random walks to Brownian motion via Donsker's Invariance Principle.
           </p>
         </div>
-        <div class="card">
+        <div class="card card-sage">
           <h4>Population Genetics</h4>
           <p>
             The Wright-Fisher model of genetic drift describes neutral allele frequencies as a bounded random walk,
             where absorbing states represent either permanent allele fixation or total extinction.
           </p>
         </div>
-        <div class="card">
+        <div class="card card-lavender">
           <h4>Statistical Physics</h4>
           <p>
             Thermal molecular collisions, Brownian motion of suspended colloidal particles, and diffusion equations
@@ -779,12 +867,12 @@
 
     <!-- ==================== SLIDE 03: FORMAL DEFINITION ==================== -->
     <section class="slide" data-slide="3">
-      <div class="slide-badge">03 | Mathematical Formalism</div>
+      <div class="slide-badge badge-blue">03 | Mathematical Formalism</div>
       <h2 class="slide-title">The 1D Simple Random Walk</h2>
       <p class="slide-subtitle">Axiomatic construction on a probability space $(\Omega, \mathcal{F}, P)$</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-blue">
           <h4>Discrete Step Increments</h4>
           <p>Let $\{\xi_n\}_{n=1}^\infty$ be a sequence of independent, identically distributed (i.i.d.) discrete random variables:</p>
           <div class="math-block">
@@ -796,7 +884,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card card-sage">
           <h4>Moments & Drift Dynamics</h4>
           <p>First and second moments of the individual step increment $\xi_i$:</p>
           <div class="math-block">
@@ -815,11 +903,11 @@
 
     <!-- ==================== SLIDE 04: MARKOV PROPERTY ==================== -->
     <section class="slide" data-slide="4">
-      <div class="slide-badge">04 | State Dynamics</div>
+      <div class="slide-badge badge-amber">04 | State Dynamics</div>
       <h2 class="slide-title">The Markov Property & State Space</h2>
       <p class="slide-subtitle">Memorylessness across discrete time steps</p>
 
-      <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card card-amber" style="margin-bottom: 1.5rem;">
         <h4>Formal Definition of the Markov Property</h4>
         <div class="math-block">
           $$P(S_{n+1} = s_{n+1} \mid S_n = s_n, S_{n-1} = s_{n-1}, \dots, S_0 = s_0) = P(S_{n+1} = s_{n+1} \mid S_n = s_n)$$
@@ -857,12 +945,12 @@
 
     <!-- ==================== SLIDE 05: PROBLEM FORMULATION ==================== -->
     <section class="slide" data-slide="5">
-      <div class="slide-badge">05 | Problem Formulation</div>
+      <div class="slide-badge badge-rose">05 | Problem Formulation</div>
       <h2 class="slide-title">The Gambler's Ruin Formulation</h2>
       <p class="slide-subtitle">Finite bankrolls, unit wagers, and terminal absorption</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-rose">
           <h4>Game Rules & Conservation of Capital</h4>
           <ul class="academic-list">
             <li>Player A (Gambler) starts with capital $k \in \{0, 1, \dots, N\}$.</li>
@@ -873,7 +961,7 @@
           </ul>
         </div>
 
-        <div class="card">
+        <div class="card card-amber">
           <h4>The Stopping Time $T$</h4>
           <p>The duration of the game is governed by the hitting time of the boundary set $\{0, N\}$:</p>
           <div class="math-block">
@@ -891,12 +979,12 @@
 
     <!-- ==================== SLIDE 06: BOUNDARY CLASSIFICATION ==================== -->
     <section class="slide" data-slide="6">
-      <div class="slide-badge">06 | Boundary Analysis</div>
+      <div class="slide-badge badge-sage">06 | Boundary Analysis</div>
       <h2 class="slide-title">Classification of States & Boundaries</h2>
       <p class="slide-subtitle">Absorbing states versus transient interior states</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-blue">
           <h4>Interior Transient States</h4>
           <p>
             The set $\mathcal{T} = \{1, 2, \dots, N-1\}$ consists entirely of transient states.
@@ -908,7 +996,7 @@
           <p>Consequently, the probability of remaining indefinitely in $\mathcal{T}$ decays to zero exponentially fast.</p>
         </div>
 
-        <div class="card">
+        <div class="card card-sage">
           <h4>Boundary Absorbing States</h4>
           <p>The boundary set $\partial \mathcal{S} = \{0, N\}$ satisfies trapping boundary conditions:</p>
           <div class="math-block">
@@ -924,11 +1012,11 @@
 
     <!-- ==================== SLIDE 07: FIRST-STEP ANALYSIS ==================== -->
     <section class="slide" data-slide="7">
-      <div class="slide-badge">07 | Analytical Derivation</div>
+      <div class="slide-badge badge-blue">07 | Analytical Derivation</div>
       <h2 class="slide-title">First-Step Analysis & Difference Equations</h2>
       <p class="slide-subtitle">Decomposition via the Law of Total Probability</p>
 
-      <div class="card">
+      <div class="card card-blue">
         <h4>The Recurrence Relation</h4>
         <p>Let $R_k = P(S_T = 0 \mid S_0 = k)$ denote the ruin probability conditioned on starting capital $k$:</p>
         <div class="math-block">
@@ -940,7 +1028,7 @@
       </div>
 
       <div class="grid-2" style="margin-top: 1rem;">
-        <div class="card">
+        <div class="card card-rose">
           <h4>Boundary Conditions</h4>
           <div class="math-block">
             $$R_0 = 1, \quad R_N = 0$$
@@ -948,7 +1036,7 @@
           <p>If initial capital is zero, ruin is immediate; if initial capital reaches $N$, target victory is attained.</p>
         </div>
 
-        <div class="card">
+        <div class="card card-amber">
           <h4>Equivalent Difference Form</h4>
           <p>Using the identity $p + q = 1 \implies R_k = (p + q) R_k$:</p>
           <div class="math-block">
@@ -960,7 +1048,7 @@
 
     <!-- ==================== SLIDE 08: SYMMETRIC SOLUTION ==================== -->
     <section class="slide" data-slide="8">
-      <div class="slide-badge">08 | Closed-Form Solution</div>
+      <div class="slide-badge badge-sage">08 | Closed-Form Solution</div>
       <h2 class="slide-title">The Fair Game: Symmetric Walk ($p = 1/2$)</h2>
       <p class="slide-subtitle">A linear profile proportional to initial capital ratio</p>
 
@@ -984,7 +1072,7 @@
         </div>
 
         <div class="calc-box">
-          <h4 style="color: var(--accent-cyan); margin-bottom: 0.75rem;">Interactive Fair Game Calculator</h4>
+          <h4 style="color: var(--pastel-sage-title); margin-bottom: 0.75rem;">Interactive Fair Game Calculator</h4>
           <div class="slider-row">
             <label>Initial Capital ($k$):</label>
             <input type="range" id="sym-k" min="1" max="99" value="20" oninput="updateSymCalc()">
@@ -996,8 +1084,8 @@
             <span class="slider-val" id="sym-n-val">$100</span>
           </div>
           <div class="calc-result-badge">
-            <div>Ruin Probability: <strong id="sym-ruin-res" style="color: var(--accent-rose-light); font-size: 1.15rem;">80.0%</strong></div>
-            <div>Win Probability: <strong id="sym-win-res" style="color: var(--accent-emerald-light); font-size: 1.15rem;">20.0%</strong></div>
+            <div>Ruin Probability: <strong id="sym-ruin-res" style="color: var(--pastel-rose-title); font-size: 1.15rem;">80.0%</strong></div>
+            <div>Win Probability: <strong id="sym-win-res" style="color: var(--pastel-sage-title); font-size: 1.15rem;">20.0%</strong></div>
           </div>
         </div>
       </div>
@@ -1005,11 +1093,11 @@
 
     <!-- ==================== SLIDE 09: ASYMMETRIC SOLUTION ==================== -->
     <section class="slide" data-slide="9">
-      <div class="slide-badge">09 | Closed-Form Solution</div>
+      <div class="slide-badge badge-rose">09 | Closed-Form Solution</div>
       <h2 class="slide-title">The Biased Game: Asymmetric Walk ($p \neq q$)</h2>
       <p class="slide-subtitle">Exponential decay driven by geometric odds ratio</p>
 
-      <div class="card">
+      <div class="card card-rose">
         <h4>Geometric Series Summation</h4>
         <p>Define the odds ratio $\lambda = q/p$. Summing the telescoping step differences yields:</p>
         <div class="math-block">
@@ -1040,7 +1128,7 @@
 
     <!-- ==================== SLIDE 10: CASINO EDGE ==================== -->
     <section class="slide" data-slide="10">
-      <div class="slide-badge">10 | Empirical Casino Analysis</div>
+      <div class="slide-badge badge-rose">10 | Empirical Casino Analysis</div>
       <h2 class="slide-title">The House Advantage: European Roulette</h2>
       <p class="slide-subtitle">How a tiny 1.35% house edge eliminates long-run player survival</p>
 
@@ -1067,28 +1155,28 @@
             <td>$N = \$20$</td>
             <td>$50.0\%$</td>
             <td>$63.5\%$</td>
-            <td><strong style="color: var(--accent-rose-light);">36.5%</strong></td>
+            <td><strong style="color: var(--pastel-rose-title);">36.5%</strong></td>
           </tr>
           <tr>
             <td>$k = \$50$</td>
             <td>$N = \$100$</td>
             <td>$50.0\%$</td>
             <td>$93.3\%$</td>
-            <td><strong style="color: var(--accent-rose-light);">6.7%</strong></td>
+            <td><strong style="color: var(--pastel-rose-title);">6.7%</strong></td>
           </tr>
           <tr>
             <td>$k = \$100$</td>
             <td>$N = \$200$</td>
             <td>$50.0\%$</td>
             <td>$99.56\%$</td>
-            <td><strong style="color: var(--accent-rose-light);">0.44%</strong></td>
+            <td><strong style="color: var(--pastel-rose-title);">0.44%</strong></td>
           </tr>
           <tr>
             <td>$k = \$100$</td>
             <td>$N = \$1,000$</td>
             <td>$90.0\%$</td>
             <td>$99.9995\%$</td>
-            <td><strong style="color: var(--accent-rose-light);">0.0005%</strong></td>
+            <td><strong style="color: var(--pastel-rose-title);">0.0005%</strong></td>
           </tr>
         </tbody>
       </table>
@@ -1101,12 +1189,12 @@
 
     <!-- ==================== SLIDE 11: EXPECTED DURATION SYMMETRIC ==================== -->
     <section class="slide" data-slide="11">
-      <div class="slide-badge">11 | Stopping Time Dynamics</div>
+      <div class="slide-badge badge-sage">11 | Stopping Time Dynamics</div>
       <h2 class="slide-title">Expected Duration of Play: Fair Game</h2>
       <p class="slide-subtitle">Analytical analysis of absorption stopping time $E[T \mid S_0 = k]$</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-sage">
           <h4>Recurrence Relation for Duration</h4>
           <p>Let $D_k = E[T \mid S_0 = k]$. By first-step conditioning:</p>
           <div class="math-block">
@@ -1118,10 +1206,10 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card card-blue">
           <h4>Parabolic Solution ($p = 1/2$)</h4>
           <p>Under the symmetric condition, the general solution is quadratic:</p>
-          <div class="math-block" style="color: var(--accent-emerald-light); font-size: 1.15rem;">
+          <div class="math-block" style="color: var(--pastel-sage-title); font-size: 1.15rem;">
             $$D_k = k(N - k)$$
           </div>
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
@@ -1141,11 +1229,11 @@
 
     <!-- ==================== SLIDE 12: EXPECTED DURATION ASYMMETRIC ==================== -->
     <section class="slide" data-slide="12">
-      <div class="slide-badge">12 | Stopping Time Dynamics</div>
+      <div class="slide-badge badge-amber">12 | Stopping Time Dynamics</div>
       <h2 class="slide-title">Expected Duration: Asymmetric Formulation</h2>
       <p class="slide-subtitle">How bias sharply contracts play duration</p>
 
-      <div class="card">
+      <div class="card card-amber">
         <h4>General Closed-Form Solution ($p \neq q$)</h4>
         <p>Solving the inhomogeneous second-order difference equation yields:</p>
         <div class="math-block" style="font-size: 1.15rem;">
@@ -1182,11 +1270,11 @@
 
     <!-- ==================== SLIDE 13: MARTINGALE THEORY ==================== -->
     <section class="slide" data-slide="13">
-      <div class="slide-badge">13 | Advanced Perspective</div>
+      <div class="slide-badge badge-lavender">13 | Advanced Perspective</div>
       <h2 class="slide-title">Martingales & Doob's Optional Stopping</h2>
       <p class="slide-subtitle">Bypassing difference equations through conservation of expected value</p>
 
-      <div class="card" style="margin-bottom: 1.25rem;">
+      <div class="card card-lavender" style="margin-bottom: 1.25rem;">
         <h4>Definition of a Martingale Process</h4>
         <p>An adapted stochastic process $\{M_n\}_{n \ge 0}$ is a martingale with respect to filtration $\{\mathcal{F}_n\}$ if:</p>
         <div class="math-block">
@@ -1195,7 +1283,7 @@
       </div>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-blue">
           <h4>Doob's Optional Stopping Theorem (OST)</h4>
           <p>If $T$ is an almost surely finite stopping time and increments are bounded:</p>
           <div class="math-block">
@@ -1203,7 +1291,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card card-sage">
           <h4>One-Line Proof of Ruin Probability</h4>
           <p>Under $p = 1/2$, the position $S_n$ is a martingale. Therefore:</p>
           <div class="math-block">
@@ -1212,19 +1300,19 @@
           <div class="math-block">
             $$0 \cdot P(S_T = 0) + N \cdot P(S_T = N) = k \implies P(S_T = N) = \frac{k}{N}$$
           </div>
-          <p style="color: var(--accent-emerald-light); font-weight: 600;">The exact linear result without solving recurrences!</p>
+          <p style="color: var(--pastel-sage-title); font-weight: 600;">The exact linear result without solving recurrences!</p>
         </div>
       </div>
     </section>
 
     <!-- ==================== SLIDE 14: QUADRATIC & EXPONENTIAL MARTINGALES ==================== -->
     <section class="slide" data-slide="14">
-      <div class="slide-badge">14 | Advanced Perspective</div>
+      <div class="slide-badge badge-lavender">14 | Advanced Perspective</div>
       <h2 class="slide-title">Quadratic & Exponential Martingales</h2>
       <p class="slide-subtitle">Deriving duration and asymmetric solutions through invariant transforms</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-lavender">
           <h4>Quadratic Martingale for Duration</h4>
           <p>Under $p = 1/2$, the process $M_n = S_n^2 - n$ is a martingale:</p>
           <div class="math-block">
@@ -1233,12 +1321,12 @@
           <div class="math-block">
             $$E[T] = E[S_T^2] - k^2 = N^2 \left(\frac{k}{N}\right) - k^2 = k(N - k)$$
           </div>
-          <p style="font-size: 0.9rem; color: var(--accent-cyan);">
+          <p style="font-size: 0.9rem; color: var(--pastel-lavender-title);">
             Provides a direct, elegant derivation of the parabolic duration formula.
           </p>
         </div>
 
-        <div class="card">
+        <div class="card card-blue">
           <h4>Exponential Martingale for Bias</h4>
           <p>Under $p \neq 1/2$, the process $M_n = \left(\frac{q}{p}\right)^{S_n}$ is a martingale:</p>
           <div class="math-block">
@@ -1247,7 +1335,7 @@
           <div class="math-block">
             $$P(S_T = 0)\cdot 1 + P(S_T = N)\cdot \left(\frac{q}{p}\right)^N = \left(\frac{q}{p}\right)^k$$
           </div>
-          <p style="font-size: 0.9rem; color: var(--accent-purple);">
+          <p style="font-size: 0.9rem; color: var(--pastel-blue-title);">
             Yields the asymmetric ruin formula immediately via linear algebra.
           </p>
         </div>
@@ -1256,12 +1344,12 @@
 
     <!-- ==================== SLIDE 15: MONTE CARLO ARCHITECTURE ==================== -->
     <section class="slide" data-slide="15">
-      <div class="slide-badge">15 | Computational Backend</div>
+      <div class="slide-badge badge-blue">15 | Computational Backend</div>
       <h2 class="slide-title">Vectorized Monte Carlo Architecture</h2>
       <p class="slide-subtitle">Simulating hundreds of thousands of parallel paths in Python (<bdi class="en-term">script.py</bdi>)</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-blue">
           <h4>Simulation Principles & Confidence Intervals</h4>
           <ul class="academic-list">
             <li><strong>Vectorized Step Execution:</strong> Batch generation of pseudorandom numbers via NumPy.</li>
@@ -1279,17 +1367,17 @@
           </ul>
         </div>
 
-        <div class="card">
+        <div class="card card-lavender">
           <h4>Python Implementation Schema</h4>
-          <pre style="background: #f8fafc; padding: 1rem; border-radius: 8px; font-size: 0.82rem; color: #1e293b; overflow-x: auto; border: 1px solid #cbd5e1; font-family: var(--font-mono);">
-<span style="color: #7c3aed;">def</span> <span style="color: #2563eb;">simulate_single_path</span>(k, N, p, max_steps=<span style="color: #b45309;">100000</span>):
+          <pre style="background: #F8F5EE; padding: 1rem; border-radius: 8px; font-size: 0.82rem; color: #1E293B; overflow-x: auto; border: 1px solid #E2D9CC; font-family: var(--font-mono);">
+<span style="color: #7C3AED;">def</span> <span style="color: #2563EB;">simulate_single_path</span>(k, N, p, max_steps=<span style="color: #B45309;">100000</span>):
     pos = k
-    steps = <span style="color: #b45309;">0</span>
-    <span style="color: #7c3aed;">while</span> <span style="color: #b45309;">0</span> &lt; pos &lt; N <span style="color: #7c3aed;">and</span> steps &lt; max_steps:
-        step = <span style="color: #b45309;">1</span> <span style="color: #7c3aed;">if</span> np.random.rand() &lt; p <span style="color: #7c3aed;">else</span> -<span style="color: #b45309;">1</span>
+    steps = <span style="color: #B45309;">0</span>
+    <span style="color: #7C3AED;">while</span> <span style="color: #B45309;">0</span> &lt; pos &lt; N <span style="color: #7C3AED;">and</span> steps &lt; max_steps:
+        step = <span style="color: #B45309;">1</span> <span style="color: #7C3AED;">if</span> np.random.rand() &lt; p <span style="color: #7C3AED;">else</span> -<span style="color: #B45309;">1</span>
         pos += step
-        steps += <span style="color: #b45309;">1</span>
-    <span style="color: #7c3aed;">return</span> (pos == <span style="color: #b45309;">0</span>), steps  <span style="color: #059669;"># (is_ruined, duration)</span></pre>
+        steps += <span style="color: #B45309;">1</span>
+    <span style="color: #7C3AED;">return</span> (pos == <span style="color: #B45309;">0</span>), steps  <span style="color: #059669;"># (is_ruined, duration)</span></pre>
           <div class="sim-stat-pill" style="margin-top: 0.8rem;">
             Throughput: <strong>&gt; 50,000</strong> complete trajectories simulated in &lt; 1.5 seconds.
           </div>
@@ -1299,12 +1387,12 @@
 
     <!-- ==================== SLIDE 16: THEORY VS SIMULATION ==================== -->
     <section class="slide" data-slide="16">
-      <div class="slide-badge">16 | Empirical Verification</div>
+      <div class="slide-badge badge-sage">16 | Empirical Verification</div>
       <h2 class="slide-title">Validation: Theory vs. Monte Carlo</h2>
       <p class="slide-subtitle">Statistical convergence adhering to the Law of Large Numbers</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-sage">
           <h4>Benchmark Matrix ($N = 20, M = 100,000$ Trials)</h4>
           <table class="academic-table">
             <thead>
@@ -1320,25 +1408,25 @@
                 <td>$k = 5$</td>
                 <td>$0.7500$</td>
                 <td>$0.7494 \pm 0.002$</td>
-                <td><span style="color: var(--accent-emerald-light); font-weight:600;">0.0006</span></td>
+                <td><span style="color: var(--pastel-sage-title); font-weight:600;">0.0006</span></td>
               </tr>
               <tr>
                 <td>$k = 10$</td>
                 <td>$0.5000$</td>
                 <td>$0.5008 \pm 0.003$</td>
-                <td><span style="color: var(--accent-emerald-light); font-weight:600;">0.0008</span></td>
+                <td><span style="color: var(--pastel-sage-title); font-weight:600;">0.0008</span></td>
               </tr>
               <tr>
                 <td>$k = 15$</td>
                 <td>$0.2500$</td>
                 <td>$0.2492 \pm 0.002$</td>
-                <td><span style="color: var(--accent-emerald-light); font-weight:600;">0.0008</span></td>
+                <td><span style="color: var(--pastel-sage-title); font-weight:600;">0.0008</span></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="card">
+        <div class="card card-blue">
           <h4>Convergence Rate & Asymptotics</h4>
           <p>By the Central Limit Theorem (CLT), simulation estimation error decays strictly at rate:</p>
           <div class="math-block" style="font-size: 1.15rem;">
@@ -1354,30 +1442,30 @@
 
     <!-- ==================== SLIDE 17: POLYA'S RECURRENCE THEOREM ==================== -->
     <section class="slide" data-slide="17">
-      <div class="slide-badge">17 | Higher Dimensions</div>
+      <div class="slide-badge badge-lavender">17 | Higher Dimensions</div>
       <h2 class="slide-title">Random Walks in $\mathbb{Z}^d$ & Pólya's Theorem</h2>
       <p class="slide-subtitle">"A drunk man will find his way home, but a drunk bird may get lost forever"</p>
 
       <div class="grid-3">
-        <div class="card">
+        <div class="card card-sage">
           <h4>1 Dimension ($\mathbb{Z}^1$)</h4>
-          <div class="math-block" style="color: var(--accent-emerald-light);">
+          <div class="math-block" style="color: var(--pastel-sage-title);">
             $$P(\text{Return}) = 1$$
           </div>
           <p>Recurrent null. The particle visits the origin infinitely often with probability $1$, yet expected return time is infinite.</p>
         </div>
 
-        <div class="card">
+        <div class="card card-blue">
           <h4>2 Dimensions ($\mathbb{Z}^2$)</h4>
-          <div class="math-block" style="color: var(--accent-emerald-light);">
+          <div class="math-block" style="color: var(--pastel-blue-title);">
             $$P(\text{Return}) = 1$$
           </div>
           <p>Recurrent null. An isotropic planar random walk visits every single lattice intersection almost surely.</p>
         </div>
 
-        <div class="card">
+        <div class="card card-rose">
           <h4>3 Dimensions ($\mathbb{Z}^3$)</h4>
-          <div class="math-block" style="color: var(--accent-rose-light);">
+          <div class="math-block" style="color: var(--pastel-rose-title);">
             $$P(\text{Return}) \approx 0.3405$$
           </div>
           <p>Transient! There exists a $65.95\%$ probability that the particle wanders into the spatial infinite abyss never to return.</p>
@@ -1392,7 +1480,7 @@
 
     <!-- ==================== SLIDE 18: INTERACTIVE SIMULATION LAB ==================== -->
     <section class="slide" data-slide="18">
-      <div class="slide-badge">18 | Interactive Visual Lab</div>
+      <div class="slide-badge badge-blue">18 | Interactive Visual Lab</div>
       <h2 class="slide-title">Live Stochastic Simulation Laboratory</h2>
       <p class="slide-subtitle">Real-time path generation with absorbing boundaries ($0$ and $N=20$)</p>
 
@@ -1414,7 +1502,7 @@
           <div style="display: flex; gap: 0.75rem;">
             <div class="sim-stat-pill">Steps: <strong id="step-count">0</strong></div>
             <div class="sim-stat-pill">Position ($S_n$): <strong id="current-pos">10</strong></div>
-            <div class="sim-stat-pill">Status: <strong id="sim-status" style="color: var(--accent-cyan);">Ready</strong></div>
+            <div class="sim-stat-pill">Status: <strong id="sim-status" style="color: var(--pastel-blue-title);">Ready</strong></div>
           </div>
         </div>
       </div>
@@ -1426,12 +1514,12 @@
 
     <!-- ==================== SLIDE 19: MODERN APPLICATIONS ==================== -->
     <section class="slide" data-slide="19">
-      <div class="slide-badge">19 | Real-World Applications</div>
+      <div class="slide-badge badge-sage">19 | Real-World Applications</div>
       <h2 class="slide-title">Applications in Data Science & Machine Learning</h2>
       <p class="slide-subtitle">Modern algorithms resting upon random walk foundations</p>
 
       <div class="grid-3">
-        <div class="card">
+        <div class="card card-lavender">
           <h4>MCMC & Metropolis-Hastings</h4>
           <p>
             Markov Chain Monte Carlo algorithms sample high-dimensional posterior distributions in Bayesian statistics
@@ -1439,7 +1527,7 @@
           </p>
         </div>
 
-        <div class="card">
+        <div class="card card-rose">
           <h4>Credit Risk & Structural Models</h4>
           <p>
             Merton's structural corporate credit model views company asset values as a diffusion process,
@@ -1447,7 +1535,7 @@
           </p>
         </div>
 
-        <div class="card">
+        <div class="card card-sage">
           <h4>Cognitive Decision Models</h4>
           <p>
             The Drift-Diffusion Model (DDM) simulates human two-choice reaction times as an accumulator random walk,
@@ -1467,12 +1555,12 @@
 
     <!-- ==================== SLIDE 20: DEDICATED SUMMARY & CONCLUSION ==================== -->
     <section class="slide" data-slide="20">
-      <div class="slide-badge">20 | Summary & Conclusion</div>
+      <div class="slide-badge badge-lavender">20 | Summary & Conclusion</div>
       <h2 class="slide-title">Summary, References & Project Resources</h2>
       <p class="slide-subtitle">Synthesis of theoretical principles and computational tools</p>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card card-lavender">
           <h4>Theoretical Synthesis</h4>
           <ul class="academic-list">
             <li><strong>Fair Game Paradox:</strong> Equal step probability does not prevent asymmetric ruin when capital is unequal.</li>
@@ -1482,7 +1570,7 @@
           </ul>
         </div>
 
-        <div class="card">
+        <div class="card card-sage">
           <h4>Academic Literature & Verification</h4>
           <ul class="academic-list">
             <li><strong>William Feller</strong> (1968): <em>An Introduction to Probability Theory and Its Applications</em>, Vol. 1.</li>
@@ -1493,7 +1581,7 @@
         </div>
       </div>
 
-      <div class="card" style="margin-top: 1.25rem;">
+      <div class="card card-blue" style="margin-top: 1.25rem;">
         <h4>CLI Execution & Collaborator Access</h4>
         <p style="color: var(--text-muted); font-size: 0.92rem;">
           The Python verification engine can be executed via PowerShell:
@@ -1779,7 +1867,7 @@
       const height = simCanvas.getBoundingClientRect().height;
 
       // Clear Canvas
-      simCtx.fillStyle = '#f8fafc';
+      simCtx.fillStyle = '#F8F5EE';
       simCtx.fillRect(0, 0, width, height);
 
       const padding = 30;
