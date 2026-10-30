@@ -1,0 +1,68 @@
+prompts
+## PRD Generation Prompt:
+
+"Act as an elite professional software consultant and data science expert. Write a comprehensive, production-ready Product Requirements Document and save it directly as a PRD.md file in the current working directory. 
+
+The project title is: "Simple Random Walk & The Gambler's Ruin Problem".
+
+The PRD.md must strictly incorporate the following core sections and requirements:
+1. Executive Summary & Vision: Bridging rigorous probability theory with intuitive, interactive visual storytelling for an academic university setting.
+2. Product Specifications & Scope:
+   - Presentation Deck: A multi-slide web presentation containing exactly 15 to 20 structured slides, featuring strict Right-to-Left (RTL) layout configuration and BiDi text integration for mixed Hebrew and English terminology, complete with JavaScript-driven navigation (Next, Previous, Home).
+   - 3D Animation Component: An immersive 10-to-20-second interactive stochastic simulation built using Three.js with orbit camera controls.
+   - Computational Backend: A Python script implementing Monte Carlo simulations and probabilistic calculations.
+3. Technical Stack & Development Workflow: Google Antigravity CLI (Gemini) via PowerShell, HTML5/CSS3/JS, Three.js, Python, and GitHub version control."
+
+## Presentation prompt:
+"Act as a frontend developer and academic data science communicator. Generate a complete, self-contained interactive presentation HTML file named deck-v1.html for "Simple Random Walk & The Gambler's Ruin Problem". The presentation must contain exactly 18 structured slides, full Right-to-Left (dir="rtl") layout, BiDi term wrapping, KaTeX integration for mathematical equations, keyboard arrow navigation, and a modern academic UI styling."
+
+### A prompt to modify the presentation:
+Please modify the existing deck-v1.html file based on the following required corrections:
+1. Ensure all slide text, headers, bullet points, and descriptions are 100% in English (no Hebrew/Arabic text).
+2. Expand the presentation to exactly 20 slides, including a dedicated Title Slide at the beginning and a dedicated Summary/Conclusion Slide at the end.
+3. Fix all mathematical expressions so they render cleanly using KaTeX math blocks (e.g., $R_k = p R_{k+1} + q R_{k-1}$) and completely remove raw code-like text formatting for math formulas.
+4. Keep the interactive JavaScript navigation, keyboard arrow support, and modern academic LTR UI layout intact.
+
+##modifying the presentation 2:
+"Please update the color theme of the existing deck-v1.html presentation. Replace the current dark/heavy color palette with a soft, elegant pastel color theme suitable for an academic presentation. Specifically:
+1. Use light, calming pastel backgrounds (e.g., soft cream, pale mint, or subtle warm gray/off-white).
+2. Set text colors to soft charcoal or deep slate for high readability.
+3. Update accent colors (headers, highlight boxes, buttons) to gentle pastel tones (e.g., dusty rose, soft sage green, or muted pastel blue/lavender).
+4. Keep all existing 20 slides, KaTeX mathematical formatting, English text, and interactive LTR layout completely intact without breaking any functionality."
+
+##modifying the presentation 3:
+"Please adjust the color theme of the presentation (deck-v1.html) with the following specific changes:
+1. Change the current white background to a soft, warm cream color (e.g., #FAF8F5 or a gentle off-white cream tone) to avoid a harsh plain white look.
+2. Introduce a richer variety of soft pastel accent colors across different slides (e.g., gentle sage green, muted lavender, dusty rose, and soft pastel blue) for highlight boxes, headers, and key elements.
+3. Ensure high contrast and readability by keeping text colors in a deep slate or soft charcoal.
+4. Keep all 20 slides, KaTeX mathematical formatting, English text, and interactive LTR layout completely intact."
+
+
+##the prompt for the python code:
+"Please write a clean, well-documented Python script (script.py) for our academic project on the "Simple Random Walk & The Gambler's Ruin Problem". The script should implement the following components:
+
+1. Monte Carlo Simulation: Simulate multiple random walk paths for a gambler starting with an initial capital 's' and aiming for a target capital 'N', with a given probability 'p' of winning each step.
+2. Empirical vs. Theoretical Calculation: Calculate both the empirical probability of ruin (and reaching the target) from the simulations and compare it with the exact theoretical formula for the Gambler's Ruin problem.
+3. Data Visualization: Use matplotlib to generate clear, publication-quality plots showing:
+   - Multiple random walk trajectory paths over time steps.
+   - The probability of ruin/success as a function of the initial capital or win probability.
+4. Clean Structure & Comments: Include clear docstrings, well-commented functions, and modular code suitable for an undergraduate statistics project, ensuring it can easily export or display plots and summary statistics."
+
+
+##the 3d video prompt:
+Create a short (10 to 20 seconds) 3D animated film using Three.js that
+  demonstrates Simple Random Walk & The Gambler's Ruin.
+  Put everything in a single HTML file, add Hebrew captions with strict RTL
+  layout and correct BiDi, and include sound effects for the actions. Ensure
+  it is built using Three.js objects rather than flat pixels, so the camera
+  can move around the scene.
+
+##modifying the presentation by making the simulation on page 18 run by python (moved to another computer):
+
+"Modify the file "C:\Users\yasse\Downloads\deck-v1.html".
+
+Strictly adhere to the following rules:
+1. ONLY modify Slide 18, which contains the "Live Stochastic Simulation Laboratory". Do not touch, alter, or reformat any other slide, global stylesheet, script, or section in the entire file.
+2. Replace the current simulation implementation in Slide 18 with Python code (using PyScript or an equivalent browser-compatible Python environment) so that the simulation logic is executed via Python.
+3. Aesthetic & UI preservation: The visual layout, styling, controls, and DOM elements of Slide 18 must look and feel identical to the current version. The user experience and interface appearance must not change.
+4. Keep all other slides and the overall structure of "deck-v1.html" completely intact."
