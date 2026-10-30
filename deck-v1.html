@@ -1510,6 +1510,257 @@
       <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.75rem; text-align: center;">
         * Red line at bottom indicates ruin absorption ($S_n = 0$); green dashed line indicates target victory ($S_n = 20$).
       </p>
+
+      <!-- PyScript In-Browser Python Runtime for Slide 18 Simulation -->
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.8.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2024.8.1/core.js"></script>
+      <script type="py">
+import math
+import random
+import asyncio
+from pyscript import window, document
+
+# Simulation State Variables
+sim_canvas = None
+sim_ctx = None
+sim_running = False
+sim_pos = 10
+SIM_MAX_N = 20
+sim_steps = 0
+sim_path = [10]
+sim_p = 0.50
+sim_loop_id = 0
+
+def init_canvas_simulation(*args):
+    global sim_canvas, sim_ctx
+    sim_canvas = document.getElementById('walkCanvas')
+    if not sim_canvas:
+        return
+    sim_ctx = sim_canvas.getContext('2d')
+    rect = sim_canvas.getBoundingClientRect()
+    dpr = float(window.devicePixelRatio or 1.0)
+    width = rect.width if (rect and rect.width > 0) else 800
+    height = rect.height if (rect and rect.height > 0) else 240
+    sim_canvas.width = int(width * dpr)
+    sim_canvas.height = int(height * dpr)
+    sim_ctx.scale(dpr, dpr)
+    draw_sim()
+
+def draw_sim():
+    global sim_canvas, sim_ctx, sim_path, SIM_MAX_N
+    if not sim_canvas or not sim_ctx:
+        return
+    rect = sim_canvas.getBoundingClientRect()
+    width = rect.width if (rect and rect.width > 0) else 800
+    height = rect.height if (rect and rect.height > 0) else 240
+
+    # Clear Canvas
+    sim_ctx.fillStyle = '#F8F5EE'
+    sim_ctx.fillRect(0, 0, width, height)
+
+    padding = 30
+    plot_width = width - padding * 2
+    plot_height = height - padding * 2
+
+    # Draw Boundary Lines
+    # Upper Boundary (Target at N=20)
+    y_n = padding
+    sim_ctx.strokeStyle = 'rgba(5, 150, 105, 0.7)'
+    sim_ctx.lineWidth = 2
+    sim_ctx.setLineDash(window.eval('[6, 4]'))
+    sim_ctx.beginPath()
+    sim_ctx.moveTo(padding, y_n)
+    sim_ctx.lineTo(width - padding, y_n)
+    sim_ctx.stroke()
+
+    sim_ctx.fillStyle = '#047857'
+    sim_ctx.font = '600 12px JetBrains Mono, monospace'
+    sim_ctx.textAlign = 'left'
+    sim_ctx.fillText('Target (N = 20) Win', padding + 10, y_n - 8)
+
+    # Lower Boundary (Ruin at 0)
+    y0 = height - padding
+    sim_ctx.strokeStyle = 'rgba(225, 29, 72, 0.7)'
+    sim_ctx.beginPath()
+    sim_ctx.moveTo(padding, y0)
+    sim_ctx.lineTo(width - padding, y0)
+    sim_ctx.stroke()
+
+    sim_ctx.fillStyle = '#be123c'
+    sim_ctx.fillText('Ruin (0) Loss', padding + 10, y0 + 18)
+
+    # Midline (Start k=10)
+    y_mid = padding + plot_height / 2
+    sim_ctx.strokeStyle = 'rgba(203, 213, 225, 0.8)'
+    sim_ctx.setLineDash(window.eval('[2, 4]'))
+    sim_ctx.beginPath()
+    sim_ctx.moveTo(padding, y_mid)
+    sim_ctx.lineTo(width - padding, y_mid)
+    sim_ctx.stroke()
+    sim_ctx.setLineDash(window.eval('[]'))
+
+    # Draw Path
+    if len(sim_path) > 1:
+        sim_ctx.strokeStyle = '#2563eb'
+        sim_ctx.lineWidth = 2.5
+        sim_ctx.beginPath()
+
+        x_step = min(plot_width / max(len(sim_path) - 1, 30), 18)
+        for i in range(len(sim_path)):
+            x = padding + i * x_step
+            y = y0 - (sim_path[i] / SIM_MAX_N) * plot_height
+            if i == 0:
+                sim_ctx.moveTo(x, y)
+            else:
+                sim_ctx.lineTo(x, y)
+        sim_ctx.stroke()
+
+        # Draw glowing particle at head
+        last_idx = len(sim_path) - 1
+        head_x = padding + last_idx * x_step
+        head_y = y0 - (sim_path[last_idx] / SIM_MAX_N) * plot_height
+
+        sim_ctx.shadowColor = 'rgba(37, 99, 235, 0.35)'
+        sim_ctx.shadowBlur = 8
+        sim_ctx.fillStyle = '#1d4ed8'
+        sim_ctx.beginPath()
+        sim_ctx.arc(head_x, head_y, 5, 0, math.pi * 2)
+        sim_ctx.fill()
+        sim_ctx.shadowBlur = 0
+
+def sim_step():
+    global sim_running, sim_pos, sim_steps, sim_path, sim_p, SIM_MAX_N
+    if not sim_running:
+        return
+
+    if sim_pos <= 0 or sim_pos >= SIM_MAX_N:
+        sim_running = False
+        btn = document.getElementById('start-walk-btn')
+        if btn:
+            btn.textContent = '▶ Restart'
+        status_el = document.getElementById('sim-status')
+        if status_el:
+            if sim_pos >= SIM_MAX_N:
+                status_el.textContent = 'Target Reached!'
+                status_el.style.color = 'var(--accent-emerald)'
+            else:
+                status_el.textContent = 'Ruin Absorbed!'
+                status_el.style.color = 'var(--accent-rose)'
+        return
+
+    step = 1 if random.random() < sim_p else -1
+    sim_pos += step
+    sim_steps += 1
+    sim_path.append(sim_pos)
+
+    step_el = document.getElementById('step-count')
+    if step_el:
+        step_el.textContent = str(sim_steps)
+    pos_el = document.getElementById('current-pos')
+    if pos_el:
+        pos_el.textContent = str(sim_pos)
+
+    draw_sim()
+
+async def sim_loop(current_loop_id):
+    global sim_running
+    while sim_running and current_loop_id == sim_loop_id:
+        sim_step()
+        if not sim_running or current_loop_id != sim_loop_id:
+            break
+        await asyncio.sleep(0.07)
+
+def toggle_sim(*args):
+    global sim_running, sim_pos, sim_loop_id, SIM_MAX_N
+    if sim_pos <= 0 or sim_pos >= SIM_MAX_N:
+        reset_sim()
+    sim_running = not sim_running
+    sim_loop_id += 1
+    btn = document.getElementById('start-walk-btn')
+    status_el = document.getElementById('sim-status')
+
+    if sim_running:
+        if btn:
+            btn.textContent = '⏸ Pause'
+        if status_el:
+            status_el.textContent = 'Running...'
+            status_el.style.color = 'var(--accent-cyan)'
+        asyncio.create_task(sim_loop(sim_loop_id))
+    else:
+        if btn:
+            btn.textContent = '▶ Resume'
+        if status_el:
+            status_el.textContent = 'Paused'
+            status_el.style.color = 'var(--accent-amber)'
+
+def reset_sim(*args):
+    global sim_running, sim_pos, sim_steps, sim_path, sim_loop_id
+    sim_running = False
+    sim_loop_id += 1
+    sim_pos = 10
+    sim_steps = 0
+    sim_path = [10]
+    btn = document.getElementById('start-walk-btn')
+    if btn:
+        btn.textContent = '▶ Start Simulation'
+    step_el = document.getElementById('step-count')
+    if step_el:
+        step_el.textContent = '0'
+    pos_el = document.getElementById('current-pos')
+    if pos_el:
+        pos_el.textContent = '10'
+    status_el = document.getElementById('sim-status')
+    if status_el:
+        status_el.textContent = 'Ready'
+        status_el.style.color = 'var(--accent-cyan)'
+    draw_sim()
+
+def update_sim_p(*args):
+    global sim_p
+    input_el = document.getElementById('sim-p')
+    if input_el:
+        sim_p = float(input_el.value)
+    disp_el = document.getElementById('sim-p-display')
+    if disp_el:
+        disp_el.textContent = f"{sim_p:.2f}"
+
+# Bind functions to global window object
+window.initCanvasSimulation = init_canvas_simulation
+window.drawSim = draw_sim
+window.simStep = sim_step
+window.toggleSim = toggle_sim
+window.resetSim = reset_sim
+window.updateSimP = update_sim_p
+
+# Bind direct element listeners
+start_btn = document.getElementById('start-walk-btn')
+if start_btn:
+    start_btn.onclick = toggle_sim
+
+reset_btn = document.querySelector('.sim-controls-bar button.danger')
+if reset_btn:
+    reset_btn.onclick = reset_sim
+
+sim_p_input = document.getElementById('sim-p')
+if sim_p_input:
+    sim_p_input.oninput = update_sim_p
+
+def handle_slide_state(event=None):
+    slide18 = document.querySelector('.slide[data-slide="18"]')
+    if slide18 and 'active' in (slide18.className or ''):
+        init_canvas_simulation()
+
+window.addEventListener('resize', handle_slide_state)
+
+slide18_dom = document.querySelector('.slide[data-slide="18"]')
+if slide18_dom:
+    obs = window.MutationObserver.new(handle_slide_state)
+    obs_opts = window.eval('({ attributes: true, attributeFilter: ["class"] })')
+    obs.observe(slide18_dom, obs_opts)
+
+# Initial canvas drawing
+init_canvas_simulation()
+      </script>
     </section>
 
     <!-- ==================== SLIDE 19: MODERN APPLICATIONS ==================== -->
