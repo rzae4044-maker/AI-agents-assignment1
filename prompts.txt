@@ -66,3 +66,7 @@ Strictly adhere to the following rules:
 2. Replace the current simulation implementation in Slide 18 with Python code (using PyScript or an equivalent browser-compatible Python environment) so that the simulation logic is executed via Python.
 3. Aesthetic & UI preservation: The visual layout, styling, controls, and DOM elements of Slide 18 must look and feel identical to the current version. The user experience and interface appearance must not change.
 4. Keep all other slides and the overall structure of "deck-v1.html" completely intact."
+
+##updating the PRD:
+Review and update the PRD file (insert prd file) based on the project file (insert project file).
+Ensure the PRD accurately reflects the actual project, including its features, functionality, requirements, workflows, and technical details.
