@@ -773,7 +773,7 @@
       </div>
     </div>
     <div class="header-indicators">
-      <div class="slide-counter-badge" id="slide-counter">Slide 1 of 20</div>
+      <div class="slide-counter-badge" id="slide-counter">Slide 1 of 21</div>
       <button class="nav-btn" id="open-drawer-btn" title="Slide Index">☰ Index</button>
     </div>
   </header>
@@ -783,7 +783,7 @@
     <div class="progress-bar-fill" id="progress-bar"></div>
   </div>
 
-  <!-- Main Presentation Stage (Exactly 20 Slides) -->
+  <!-- Main Presentation Stage (21 Slides) -->
   <main id="deck-stage">
 
     <!-- ==================== SLIDE 01: DEDICATED TITLE SLIDE ==================== -->
@@ -1763,9 +1763,30 @@ init_canvas_simulation()
       </script>
     </section>
 
-    <!-- ==================== SLIDE 19: MODERN APPLICATIONS ==================== -->
+    <!-- ==================== SLIDE 19: 3D STOCHASTIC SIMULATION FILM ==================== -->
     <section class="slide" data-slide="19">
-      <div class="slide-badge badge-sage">19 | Real-World Applications</div>
+      <div class="slide-badge badge-amber">19 | 3D Visual Simulation</div>
+      <h2 class="slide-title">3D Stochastic Simulation & Animated Film</h2>
+      <p class="slide-subtitle">Three-dimensional interactive visualization of gambler's ruin dynamics with playback controls</p>
+
+      <div class="interactive-canvas-container" style="padding: 0; height: 540px; overflow: hidden; background: #0d1117;">
+        <iframe 
+          id="sim-3d-iframe"
+          src="gamblers_ruin_3d_simulation.html" 
+          title="3D Random Walk & Gambler's Ruin Simulation" 
+          style="width: 100%; height: 100%; border: none; display: block;"
+          allow="autoplay">
+        </iframe>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 0.75rem; text-align: center;">
+        * 3D Film Simulation: Click <strong>נגן סרטון</strong> (Play Film) to start the animation sequence, or drag to orbit and explore the 3D table.
+      </p>
+    </section>
+
+    <!-- ==================== SLIDE 20: MODERN APPLICATIONS ==================== -->
+    <section class="slide" data-slide="20">
+      <div class="slide-badge badge-sage">20 | Real-World Applications</div>
       <h2 class="slide-title">Applications in Data Science & Machine Learning</h2>
       <p class="slide-subtitle">Modern algorithms resting upon random walk foundations</p>
 
@@ -1804,9 +1825,9 @@ init_canvas_simulation()
       </div>
     </section>
 
-    <!-- ==================== SLIDE 20: DEDICATED SUMMARY & CONCLUSION ==================== -->
-    <section class="slide" data-slide="20">
-      <div class="slide-badge badge-lavender">20 | Summary & Conclusion</div>
+    <!-- ==================== SLIDE 21: DEDICATED SUMMARY & CONCLUSION ==================== -->
+    <section class="slide" data-slide="21">
+      <div class="slide-badge badge-lavender">21 | Summary & Conclusion</div>
       <h2 class="slide-title">Summary, References & Project Resources</h2>
       <p class="slide-subtitle">Synthesis of theoretical principles and computational tools</p>
 
@@ -1882,13 +1903,13 @@ init_canvas_simulation()
   <script>
     /**
      * Presentation Deck Controller
-     * Handles exactly 20 structured slides with LTR navigation, keyboard events, and KaTeX rendering.
+     * Handles 21 structured slides with LTR navigation, keyboard events, and KaTeX rendering.
      */
     class PresentationDeck {
-      constructor(totalSlides = 20) {
+      constructor(totalSlides = 21) {
         this.currentSlide = 1;
-        this.totalSlides = totalSlides;
         this.slides = document.querySelectorAll('.slide');
+        this.totalSlides = totalSlides || this.slides.length;
         
         this.prevBtn = document.getElementById('prev-btn');
         this.nextBtn = document.getElementById('next-btn');
@@ -1916,6 +1937,18 @@ init_canvas_simulation()
         // If slide 18 (Simulation Lab) is activated, resize canvas
         if (this.currentSlide === 18) {
           setTimeout(initCanvasSimulation, 50);
+        }
+
+        // If slide 19 (3D Simulation) is activated, trigger resize for 3D canvas
+        if (this.currentSlide === 19) {
+          setTimeout(() => {
+            try {
+              const iframe = document.getElementById('sim-3d-iframe');
+              if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.dispatchEvent(new Event('resize'));
+              }
+            } catch (e) {}
+          }, 50);
         }
       }
 
@@ -2026,7 +2059,7 @@ init_canvas_simulation()
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      deck = new PresentationDeck(20);
+      deck = new PresentationDeck(21);
 
       if (!triggerKaTeX()) {
         const interval = setInterval(() => {
