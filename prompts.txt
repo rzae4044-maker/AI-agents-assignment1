@@ -79,3 +79,11 @@ Ensure the PRD accurately reflects the actual project, including its features, f
   Please keep everything else in the file completely untouched—do not change, reformat, or remove any
   existing slides, styles, or scripts."
 
+##reupdating the PRD:
+"Please review my updated HTML presentation "C:\Users\STD577L\Downloads\deck-v1.html" and update my
+  PRD "C:\Users\STD577L\Downloads\PRD.md" so the two documents are fully aligned.
+
+  Specifically, incorporate the new 3D video slide and any other details from the presentation that
+  aren't reflected in the PRD yet, matching the document's existing structure, tone, and formatting.
+  Please only update or add the relevant sections—do not rewrite, reformat, or remove any existing
+  requirements that haven't changed."
