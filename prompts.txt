@@ -70,3 +70,12 @@ Strictly adhere to the following rules:
 ##updating the PRD:
 Review and update the PRD file (insert prd file) based on the project file (insert project file).
 Ensure the PRD accurately reflects the actual project, including its features, functionality, requirements, workflows, and technical details.
+
+##adding the video into the presentation:
+" Please add my 3D video "C:\Users\STD577L\Downloads\gamblers_ruin_3d_simulation.html" as a new slide
+  in my HTML presentation: "C:\Users\STD577L\Downloads\deck-v1.html" placed right after slide 18.
+  Match the exact HTML structure, styling, and navigation logic of the existing slides so it blends
+  in seamlessly, and set the video to fit cleanly within the slide with playback controls enabled.
+  Please keep everything else in the file completely untouched—do not change, reformat, or remove any
+  existing slides, styles, or scripts."
+
